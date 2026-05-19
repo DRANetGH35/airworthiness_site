@@ -13,9 +13,16 @@ def index():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == "POST":
-        username = request.form.get('name')
-        email = request.form.get('email')
-        password = request.form.get('password')
-        print(username, email, password)
+        username = str(request.form.get('name'))
+        email = str(request.form.get('email'))
+        password = str(request.form.get('password'))
+        new_user = User(name=username,
+                        email=email,
+                        password=password,
+                        is_admin=False,
+                        is_active=False
+                        )
+        db.session.add(new_user)
+        db.session.commit()
         return 'registered'
     return render_template('register.html')

@@ -4,53 +4,44 @@
 {% include 'navbar.html' %}
 
 <body>
+<main>
+<div class="custom-body">
 <div class="custom-main">
-<form>
+<form id="registerForm" action="/register" method="post">
     <div class="custom-form-row">
         <label for="name">Username:</label>
         <input class="form-control-sm custom-form-input" id="name" type="text" placeholder="username">
     </div>
+    <div class="custom-form-row" style="padding: 0;"><p id="nameError" class="error"></p></div>
     <div class="custom-form-row" style="padding-left:40px;">
         <label for="email">Email:</label>
         <input class="form-control-sm custom-form-input" id="email" type="text" placeholder="yourmail@mail.com">
     </div>
+    <div class="custom-form-row" style="padding: 0;"><p id="emailError" class="error"></p></div>
     <div class="custom-form-row" style="padding-left:12px;">
         <label for="password">Password:</label>
         <input class="form-control-sm custom-form-input" id="password" type="password" placeholder="password">
     </div>
+    <div class="custom-form-row" style="padding: 0;"><p id="passwordError" class="error"></p></div>
     <div class="custom-form-row" style="padding-left:20px;">
         <label for="confirm">Confirm:</label>
         <input class="form-control-sm custom-form-input" id="confirm" type="password" placeholder="password">
     </div>
+    <div class="custom-form-row" style="padding: 0;"><p id="confirmError" class="error"></p></div>
     <div class="custom-form-row">
         <input class="btn btn-primary" type="submit" id="submit">
     </div>
 </form>
+    <div class="custom-form-row">
+        <p id="result" class="error"></p>
+    </div>
 </div>
+</div>
+</main>
+<script src="/static/register_form_validation.js"></script>
 </body>
 
 {% include 'footer.html' %}
 
 {% endblock %}
 
-
-<div class="custom-main">
-<form>
-    <div class="custom-row">
-        <label for="name">Username:</label>
-        <input id="name" type="text" placeholder="username">
-    </div>
-    <div class="custom-row">
-        <label for="email">Email:</label>
-        <input id="email" type="text" placeholder="yourmail@mail.com">
-    </div>
-    <div class="custom-row">
-        <label for="password">Password:</label>
-        <input id="password" type="password" placeholder="password">
-    </div>
-    <div class="custom-row">
-        <label for="confirm">Confirm:</label>
-        <input id="confirm" type="password" placeholder="password">
-    </div>
-</form>
-</div>

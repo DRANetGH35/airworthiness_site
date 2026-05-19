@@ -2,6 +2,7 @@
     display:flex;
     justify-content:center;
     flex-direction:column;
+    max-width: 1000px;
 }
 .custom-row{
     display:flex;
@@ -12,7 +13,27 @@
     display:flex;
     justify-content:center;
     padding:5px;
+    margin:0;
 }
 .custom-form-input{
     width:200px;
+}
+.custom-body{
+    display:flex;
+    justify-content:center;
+}
+.error{
+    color:red;
+    margin: 0;
+}
+
+/*This stuff keeps the footer at the bottom */
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Ensures the body is at least the full screen height */
+  margin: 0;
+}
+main{
+    flex: 1;
 }

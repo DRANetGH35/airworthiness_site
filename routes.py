@@ -1,5 +1,5 @@
 from flask import render_template
-
+from flask import request
 from extensions import db
 from models import User
 from app import create_app
@@ -12,4 +12,6 @@ def index():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+    if request.method == "POST":
+        return 'registered'
     return render_template('register.html')

@@ -82,12 +82,10 @@ function validateForm() {
 
 //prevent default reloading
 registerForm.addEventListener('submit', function (event) {
-    event.preventDefault();
     //clear result
     result.innerHTML = "";
     //validate form
     if (validateForm()) {
-        event.preventDefault();
         result.innerHTML = "Form is valid"
         result.classList.remove('error')
         console.log('submit!')

@@ -7,20 +7,20 @@
 <main>
 <div class="custom-body">
 <div class="custom-main">
-<form id="registerForm" action="/register" method="post">
+<form name="registerForm" id="registerForm" action="/register" method="POST">
     <div class="custom-form-row">
         <label for="name">Username:</label>
-        <input class="form-control-sm custom-form-input" id="name" type="text" placeholder="username">
+        <input class="form-control-sm custom-form-input" name="name" id="name" type="text" placeholder="username">
     </div>
     <div class="custom-form-row" style="padding: 0;"><p id="nameError" class="error"></p></div>
     <div class="custom-form-row" style="padding-left:40px;">
         <label for="email">Email:</label>
-        <input class="form-control-sm custom-form-input" id="email" type="text" placeholder="yourmail@mail.com">
+        <input class="form-control-sm custom-form-input" name="email" id="email" type="text" placeholder="yourmail@mail.com">
     </div>
     <div class="custom-form-row" style="padding: 0;"><p id="emailError" class="error"></p></div>
     <div class="custom-form-row" style="padding-left:12px;">
         <label for="password">Password:</label>
-        <input class="form-control-sm custom-form-input" id="password" type="password" placeholder="password">
+        <input class="form-control-sm custom-form-input" id="password" name="password" type="password" placeholder="password">
     </div>
     <div class="custom-form-row" style="padding: 0;"><p id="passwordError" class="error"></p></div>
     <div class="custom-form-row" style="padding-left:20px;">

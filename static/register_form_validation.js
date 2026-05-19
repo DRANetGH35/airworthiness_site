@@ -88,7 +88,6 @@ registerForm.addEventListener('submit', function (event) {
     if (validateForm()) {
         result.innerHTML = "Form is valid"
         result.classList.remove('error')
-        console.log('submit!')
     }else{
         event.preventDefault();
         result.innerHTML = "Please fix the errors"

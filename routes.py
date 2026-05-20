@@ -49,3 +49,7 @@ def login():
 def logout():
     logout_user()
     return redirect(request.referrer)
+
+@app.route('/plane_data')
+def plane_data():
+    return render_template('plane_data_page.html')

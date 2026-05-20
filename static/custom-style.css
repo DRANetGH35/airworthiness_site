@@ -27,7 +27,9 @@
     color:red;
     margin: 0;
 }
-
+.custom-table{
+    max-width:60vw;
+}
 /*This stuff keeps the footer at the bottom */
 body {
   display: flex;

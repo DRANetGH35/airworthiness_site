@@ -1,0 +1,39 @@
+{% from "bootstrap5/form.html" import render_form %}
+{% extends "base.html" %} {% block content %}
+
+{% include 'navbar.html' %}
+
+<body>
+<main>
+<div class="custom-body">
+
+<h3>Piper  -  12345</h3>
+<table class="table table-striped custom-table">
+    <thead>
+    <tr>
+        <th>Time</th><th>Hobbs</th><th>Tach(interpolated)</th>
+    </tr>
+    </thead>
+    <tr>
+        <td>09-11-2001</td><td>12:00:00</td><td>10:00:00</td>
+    </tr>
+    <tr>
+        <td>09-12-2001</td><td>13:00:00</td><td>11:00:00</td>
+    </tr>
+    <tr>
+        <td>09-13-2001</td><td>14:00:00</td><td>12:00:00</td>
+    </tr>
+    <tr>
+        <td><a href="/#" class="btn-link">Add</a></td><td>---</td><td>---</td>
+    </tr>
+
+</table>
+</div>
+
+</main>
+</body>
+
+{% include 'footer.html' %}
+
+{% endblock %}
+

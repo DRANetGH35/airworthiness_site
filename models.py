@@ -11,3 +11,10 @@ class User(UserMixin, db.Model):
     email: Mapped[str] = mapped_column(String(1000))
     is_admin: Mapped[bool] = mapped_column(Boolean, nullable=False)
     is_active: Mapped[bool] = mapped_column(Boolean, nullable=False)
+
+    @classmethod
+    def exists(cls, username: str) -> bool:
+        return cls.query.filter_by(name=username).first() is not None
+
+    def get_by_username(self, username: str):
+        return self.query.filter_by(name=username).first()

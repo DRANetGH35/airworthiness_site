@@ -16,6 +16,8 @@ def register():
         username = str(request.form.get('name'))
         email = str(request.form.get('email'))
         password = str(request.form.get('password'))
+        if User.exists(username):
+            return render_template('register.html', error="Username already exists")
         new_user = User(name=username,
                         email=email,
                         password=password,
@@ -25,4 +27,4 @@ def register():
         db.session.add(new_user)
         db.session.commit()
         return 'registered'
-    return render_template('register.html')
+    return render_template('register.html', error="")

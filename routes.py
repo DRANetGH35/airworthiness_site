@@ -25,7 +25,7 @@ def register():
                         email=email,
                         password=password,
                         is_admin=False,
-                        is_active=False
+                        verified=False,
                         )
         db.session.add(new_user)
         db.session.commit()

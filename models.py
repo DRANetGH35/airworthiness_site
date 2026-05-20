@@ -10,7 +10,7 @@ class User(UserMixin, db.Model):
     name: Mapped[str] = mapped_column(String(1000))
     email: Mapped[str] = mapped_column(String(1000))
     is_admin: Mapped[bool] = mapped_column(Boolean, nullable=False)
-    is_active: Mapped[bool] = mapped_column(Boolean, nullable=False)
+    verified: Mapped[bool] = mapped_column(Boolean, nullable=False)
 
     @classmethod
     def exists(cls, username: str) -> bool:
@@ -19,3 +19,7 @@ class User(UserMixin, db.Model):
     @classmethod
     def get_by_username(cls, username: str):
         return cls.query.filter_by(name=username).first()
+
+    @classmethod
+    def get(cls, user_id):
+        return cls.query.filter_by(id=user_id).first()

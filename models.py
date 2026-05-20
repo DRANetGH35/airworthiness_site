@@ -14,7 +14,6 @@ class User(UserMixin, db.Model):
     email: Mapped[str] = mapped_column(String(1000))
     is_admin: Mapped[bool] = mapped_column(Boolean, nullable=False)
     verified: Mapped[bool] = mapped_column(Boolean, nullable=False)
-    planes: Mapped[List["Plane"]] = relationship(back_populates="user")
 
     @classmethod
     def exists(cls, username: str) -> bool:
@@ -28,10 +27,3 @@ class User(UserMixin, db.Model):
     def get(cls, user_id):
         return cls.query.filter_by(id=user_id).first()
 
-class Plane(db.Model):
-    __tablename__ = "plane_table"
-
-    id : Mapped[int] = mapped_column(primary_key=True)
-    name : Mapped[str] = mapped_column(String(1000))
-    user_id : Mapped[int] = mapped_column(ForeignKey("user_table.id"))
-    user : Mapped["User"] = relationship(back_populates="planes")

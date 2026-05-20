@@ -28,7 +28,7 @@
     margin: 0;
 }
 .custom-table{
-    max-width:60vw;
+    width:60vw;
 }
 /*This stuff keeps the footer at the bottom */
 body {

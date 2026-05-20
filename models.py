@@ -1,16 +1,19 @@
 from flask_login import UserMixin
-from sqlalchemy import Integer, String, Boolean
+from sqlalchemy import Integer, String, Boolean, DateTime
 from sqlalchemy.orm import Mapped, mapped_column
 
 from extensions import db
 
 class User(UserMixin, db.Model):
+    __tablename__ = "user_table"
+
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     password: Mapped[str] = mapped_column(String(100))
     name: Mapped[str] = mapped_column(String(1000))
     email: Mapped[str] = mapped_column(String(1000))
     is_admin: Mapped[bool] = mapped_column(Boolean, nullable=False)
     verified: Mapped[bool] = mapped_column(Boolean, nullable=False)
+    planes: Mapped[List["Plane"]] = relationship(backpopulates="user")
 
     @classmethod
     def exists(cls, username: str) -> bool:
@@ -23,3 +26,19 @@ class User(UserMixin, db.Model):
     @classmethod
     def get(cls, user_id):
         return cls.query.filter_by(id=user_id).first()
+
+class Plane(db.Model):
+    __tablename__ = "plane_table"
+
+    id : Mapped[int] = mapped_column(primary_key=True)
+    name : Mapped[str] = mapped_column(String(1000))
+    user_id : Mapped[int] = mapped_column(ForeignKey("user_table.id"))
+    user : Mapped["User"] = relationship(backpopulates="planes")
+
+class TimeEntry(db.Model):
+    __tablename__ = "time entries"
+
+    id : Mapped[int] = mapped_column(primary_key=True)
+    time : Mapped[datetime] = mapped_column(DateTime) #Mapped[datetime] might be wrong check on this later
+    hours : Mapped[int] = mapped_column(Integer)
+    type: Mapped[str] = mapped_column(String(1000)) #Tach or Hobbs

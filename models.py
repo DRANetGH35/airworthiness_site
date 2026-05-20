@@ -16,5 +16,6 @@ class User(UserMixin, db.Model):
     def exists(cls, username: str) -> bool:
         return cls.query.filter_by(name=username).first() is not None
 
-    def get_by_username(self, username: str):
-        return self.query.filter_by(name=username).first()
+    @classmethod
+    def get_by_username(cls, username: str):
+        return cls.query.filter_by(name=username).first()

@@ -1,0 +1,39 @@
+{% from "bootstrap5/form.html" import render_form %}
+{% extends "base.html" %} {% block content %}
+
+{% include 'navbar.html' %}
+
+<body>
+<main>
+<div class="custom-body">
+<div class="custom-main">
+<form name="registerForm" id="registerForm" action="/login" method="POST">
+    <div class="custom-form-row">
+        <label for="name">Username:</label>
+        <input class="form-control-sm custom-form-input" name="name" id="name" type="text" placeholder="username">
+    </div>
+    <div class="custom-form-row" style="padding: 0;"><p id="nameError" class="error"></p></div>
+    <div class="custom-form-row" style="padding: 0;"><p id="emailError" class="error"></p></div>
+    <div class="custom-form-row" style="padding-left:12px;">
+        <label for="password">Password:</label>
+        <input class="form-control-sm custom-form-input" id="password" name="password" type="password" placeholder="password">
+    </div>
+    <div class="custom-form-row" style="padding: 0;"><p id="passwordError" class="error"></p></div>
+    <div class="custom-form-row" style="padding: 0;"><p id="confirmError" class="error"></p></div>
+    <div class="custom-form-row">
+        <input class="btn btn-primary" type="submit" id="submit">
+    </div>
+</form>
+    <div class="custom-form-row">
+        <p id="result" class="error">{{ error }}</p>
+    </div>
+    <p>name {{ current_user }}</p>
+</div>
+</div>
+</main>
+</body>
+
+{% include 'footer.html' %}
+
+{% endblock %}
+

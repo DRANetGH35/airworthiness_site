@@ -20,11 +20,7 @@ def create_app():
 
     @login_manager.user_loader
     def load_user(user_id):
-        user_to_load = db.session.execute(select(User).where(User.id == user_id)).scalar()
-        if user_to_load:
-            return user_to_load
-        else:
-            return None
+        return User.query.get(int(user_id))
 
 
     #with app.app_context():

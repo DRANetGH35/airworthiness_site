@@ -22,10 +22,18 @@
             </ul>
 
              <ul class="navbar-nav ms-auto">
+                 {% if current_user.is_authenticated %}
                 <li class="nav-item">
                     <a class="nav-link navbar-btn" href="#">Profile</a>
                 </li>
-
+                <li class="nav-item">
+                    <a class="nav-link navbar-btn" href="/logout">Logout</a>
+                </li>
+                {% else %}
+                 <li class="nav-item">
+                     <a class="nav-link navbar-btn" href="/login">Login</a>
+                 </li>
+                 {% endif %}
             </ul>
 
         </div>

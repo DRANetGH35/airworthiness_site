@@ -1,6 +1,6 @@
 from flask import render_template, redirect, url_for, jsonify, session
 from flask import request
-from flask_login import login_user, current_user
+from flask_login import login_user, current_user, logout_user
 from extensions import db
 from models import User
 from app import create_app
@@ -9,9 +9,7 @@ app = create_app()
 
 @app.route('/')
 def index():
-    print(current_user)
-    print(current_user.is_authenticated)
-    return render_template('index.html')
+    return render_template('index.html', current_user=current_user)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -39,7 +37,6 @@ def login():
     if request.method == "POST":
         username = str(request.form.get('name'))
         password = str(request.form.get('password'))
-        print(username, password)
         user_in_question = User.get_by_username(username)
         if user_in_question is None or user_in_question.password != password:
             return render_template('login.html', error="Incorrect username or password")
@@ -47,3 +44,8 @@ def login():
             login_user(user_in_question, remember=True)
             return redirect(url_for('index'))
     return render_template('login.html', error="", current_user=current_user)
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(request.referrer)

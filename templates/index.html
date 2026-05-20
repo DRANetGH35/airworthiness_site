@@ -15,9 +15,11 @@
 </div>
 </div>
 {% else %}
-<div class="custom-main">
+<div class="custom-body">
     <p>Welcome {{ current_user.name }}</p>
+    {% include 'plane_selection.html' %}
 </div>
+
 {% endif %}
 </div>
 </main>

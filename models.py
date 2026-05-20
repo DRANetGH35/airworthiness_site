@@ -1,6 +1,7 @@
 from flask_login import UserMixin
-from sqlalchemy import Integer, String, Boolean, DateTime
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy import Integer, String, Boolean, DateTime, ForeignKey, func
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+import datetime
 
 from extensions import db
 
@@ -13,7 +14,7 @@ class User(UserMixin, db.Model):
     email: Mapped[str] = mapped_column(String(1000))
     is_admin: Mapped[bool] = mapped_column(Boolean, nullable=False)
     verified: Mapped[bool] = mapped_column(Boolean, nullable=False)
-    planes: Mapped[List["Plane"]] = relationship(backpopulates="user")
+    planes: Mapped[List["Plane"]] = relationship(back_populates="user")
 
     @classmethod
     def exists(cls, username: str) -> bool:
@@ -33,12 +34,4 @@ class Plane(db.Model):
     id : Mapped[int] = mapped_column(primary_key=True)
     name : Mapped[str] = mapped_column(String(1000))
     user_id : Mapped[int] = mapped_column(ForeignKey("user_table.id"))
-    user : Mapped["User"] = relationship(backpopulates="planes")
-
-class TimeEntry(db.Model):
-    __tablename__ = "time entries"
-
-    id : Mapped[int] = mapped_column(primary_key=True)
-    time : Mapped[datetime] = mapped_column(DateTime) #Mapped[datetime] might be wrong check on this later
-    hours : Mapped[int] = mapped_column(Integer)
-    type: Mapped[str] = mapped_column(String(1000)) #Tach or Hobbs
+    user : Mapped["User"] = relationship(back_populates="planes")

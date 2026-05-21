@@ -4,6 +4,7 @@ from flask_login import login_user, current_user, logout_user
 from extensions import db
 from models import User
 from app import create_app
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = create_app()
 
@@ -21,7 +22,7 @@ def register():
             return render_template('register.html', error="Username already exists")
         new_user = User(name=username,
                         email=email,
-                        password=password,
+                        password=generate_password_hash(password, method='pbkdf2:sha256', salt_length=8),
                         is_admin=False,
                         verified=False,
                         )
@@ -38,7 +39,7 @@ def login():
         username = str(request.form.get('name'))
         password = str(request.form.get('password'))
         user_in_question = User.get_by_username(username)
-        if user_in_question is None or user_in_question.password != password:
+        if user_in_question is None or check_password_hash(user_in_question.password, password):
             return render_template('login.html', error="Incorrect username or password")
         else:
             login_user(user_in_question, remember=True)

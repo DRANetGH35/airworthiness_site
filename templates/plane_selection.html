@@ -4,9 +4,10 @@
 <div class="custom-main">
 <h3>Which plane are you flying?</h3>
 <div class="list-group">
-    <a href='/plane_data' class="list-group-item list-group-item-action">Piper  - 12345</a>
-    <a href='/plane_data' class="list-group-item list-group-item-action">Cessna  -  45678</a>
-    <a href='/plane_data' class="list-group-item list-group-item-action">f-16 Viper   -    87654</a>
+    {% for plane in planes %}
+    <a href='/plane_data/{{ plane.id }}' class="list-group-item list-group-item-action">{{ plane.name }}</a>
+    {% endfor %}
+    <a href="/add_plane" style="text-align:center;" class="btn-link list-group-item">Add plane</a>
 </div>
 </div>
 {% endblock %}

@@ -1,0 +1,15 @@
+{% from "bootstrap5/form.html" import render_form %}
+{% extends "base.html" %} {% block content %}
+{% include 'navbar.html' %}
+<div class="custom-body">
+<form action="/add_plane" method="POST">
+    <label>Plane name
+        <input class="form-control" type="text" name="plane">
+    </label>
+    <input class="btn btn-primary" type="submit">
+</form>
+<p class="error">{{error}}</p>
+</div>
+
+{% include 'footer.html' %}
+{% endblock %}

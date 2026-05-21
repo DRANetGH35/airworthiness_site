@@ -2,16 +2,19 @@ from flask import render_template, redirect, url_for, jsonify, session
 from flask import request
 from flask_login import login_user, current_user, logout_user, login_required
 from extensions import db, send_verification_email
-from models import User
+from models import User, Plane
 from app import create_app
 from werkzeug.security import generate_password_hash, check_password_hash
 import random
+from sqlalchemy import select
 
 app = create_app()
 
 @app.route('/')
 def index():
-    return render_template('index.html', current_user=current_user)
+    planes = db.session.execute(select(Plane)).scalars().all()
+    print(planes)
+    return render_template('index.html', current_user=current_user, planes=planes)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -58,6 +61,22 @@ def logout():
 @app.route('/plane_data')
 def plane_data():
     return render_template('plane_data_page.html')
+
+@login_required
+@app.route('/add_plane', methods=['GET', 'POST'])
+def add_plane():
+    if request.method == "POST":
+        plane_name = request.form.get('plane')
+        if plane_name == "":
+            error = "Plane name must not be empty"
+            return render_template('add_plane.html', error=error)
+        new_plane = Plane(name=plane_name,
+                          user=current_user,
+                          user_id=current_user.id)
+        db.session.add(new_plane)
+        db.session.commit()
+        return redirect(url_for('index'))
+    return render_template('add_plane.html')
 
 @login_required
 @app.route('/verify', methods=['POST'])

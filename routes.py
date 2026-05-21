@@ -63,8 +63,6 @@ def plane_data():
 @app.route('/verify', methods=['POST'])
 def verify():
     verification_code = str(request.form.get('verification_code'))
-    print(verification_code)
-    print(current_user.verification_code)
     if request.form.get("verification_code") == current_user.verification_code:
         current_user.set_verified(True)
         error = "incorrect code"

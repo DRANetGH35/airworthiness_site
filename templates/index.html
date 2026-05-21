@@ -5,7 +5,18 @@
 <body>
 <main>
 <div class="custom-body">
-{% if not current_user.is_authenticated %}
+
+
+{% if current_user.is_authenticated %}
+    {% if not current_user.is_verified() %}
+    {%  include 'account_verification.html' %}
+    {% else %}
+    <div style="display:flex; align-items:center; flex-direction:column;">
+        <p>Welcome {{ current_user.name }}</p>
+        {% include 'plane_selection.html' %}
+    </div>
+    {% endif %}
+{% else %}
 <div class="custom-main">
 <div class="custom-row">
     <a href='/login' class="btn btn-secondary">Log in</a>
@@ -13,11 +24,6 @@
 <div class="custom-row">
     <a href="/register" class="btn-link">register</a>
 </div>
-</div>
-{% else %}
-<div style="display:flex; align-items:center; flex-direction:column;">
-    <p>Welcome {{ current_user.name }}</p>
-    {% include 'plane_selection.html' %}
 </div>
 
 {% endif %}

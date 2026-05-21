@@ -15,6 +15,7 @@ class User(UserMixin, db.Model):
     email: Mapped[str] = mapped_column(String(1000))
     is_admin: Mapped[bool] = mapped_column(Boolean, nullable=False)
     verified: Mapped[bool] = mapped_column(Boolean, nullable=False)
+    verification_code: Mapped[str] = mapped_column(String(1000))
     planes: Mapped[List["Plane"]] = relationship(back_populates="user")
 
     @classmethod
@@ -28,6 +29,13 @@ class User(UserMixin, db.Model):
     @classmethod
     def get(cls, user_id):
         return cls.query.filter_by(id=user_id).first()
+
+    def is_verified(self):
+        return self.verified
+
+    def set_verified(self, verified: bool):
+        self.verified = verified
+        db.session.commit()
 
 class Plane(db.Model):
     __tablename__ = "plane_table"

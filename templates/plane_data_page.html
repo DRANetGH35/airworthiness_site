@@ -7,24 +7,20 @@
 <main>
 <div class="custom-body">
 
-<h3>Piper  -  12345</h3>
+<h3>{{plane.name}}  -  {{ plane.id }}</h3>
 <table class="table table-striped custom-table">
     <thead>
     <tr>
         <th>Time</th><th>Tach</th><th>Hobbs(interpolated)</th>
     </tr>
     </thead>
+    {% for time_entry in time_table %}
+    <td>{{ time_entry.created }}</td><td>{{time_entry.tach_time}}</td><td>{{ (time_entry.tach_time * 1.2) }}</td>
+    {% endfor %}
     <tr>
-        <td>09-11-2001</td><td>12:00:00</td><td>10:00:00</td>
-    </tr>
-    <tr>
-        <td>09-12-2001</td><td>13:00:00</td><td>11:00:00</td>
-    </tr>
-    <tr>
-        <td>09-13-2001</td><td>14:00:00</td><td>12:00:00</td>
-    </tr>
-    <tr>
-        <td><a href="/#" class="btn-link">Add</a></td><td>---</td><td>---</td>
+        <form action="/add_time_entry" method="POST">
+        <td><input class="btn btn-link" value="Add" type="submit"></td><td><input name="tach_time" type="text"></td><td>---</td>
+        </form>
     </tr>
 </table>
 <div style="margin-top:10vh;">

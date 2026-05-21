@@ -2,18 +2,18 @@ from flask import render_template, redirect, url_for, jsonify, session
 from flask import request
 from flask_login import login_user, current_user, logout_user, login_required
 from extensions import db, send_verification_email
-from models import User, Plane
+from models import User, Plane, TimeEntry
 from app import create_app
 from werkzeug.security import generate_password_hash, check_password_hash
 import random
 from sqlalchemy import select
+import datetime
 
 app = create_app()
 
 @app.route('/')
 def index():
     planes = db.session.execute(select(Plane)).scalars().all()
-    print(planes)
     return render_template('index.html', current_user=current_user, planes=planes)
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -58,9 +58,12 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
-@app.route('/plane_data')
-def plane_data():
-    return render_template('plane_data_page.html')
+@app.route('/plane_data/<plane_id>')
+def plane_data(plane_id):
+    plane = db.session.execute(select(Plane).where(Plane.id == plane_id)).scalar()
+    time_table = db.session.execute(select(TimeEntry).where(TimeEntry.plane_id == plane_id)).scalars().all()
+    print(time_table)
+    return render_template('plane_data_page.html', plane=plane, time_table=time_table)
 
 @login_required
 @app.route('/add_plane', methods=['GET', 'POST'])
@@ -77,6 +80,21 @@ def add_plane():
         db.session.commit()
         return redirect(url_for('index'))
     return render_template('add_plane.html')
+
+@login_required
+@app.route('/add_time_entry', methods=['POST'])
+def add_time_entry():
+    plane_id = request.referrer.split('/')[-1]
+    plane = db.session.execute(select(Plane).where(Plane.id == plane_id)).scalar()
+    new_time_entry = TimeEntry(
+        created = datetime.datetime.now(),
+        tach_time = request.form.get('tach_time'),
+        plane=plane,
+        plane_id=plane_id
+    )
+    db.session.add(new_time_entry)
+    db.session.commit()
+    return redirect(f'/plane_data/{plane_id}')
 
 @login_required
 @app.route('/verify', methods=['POST'])

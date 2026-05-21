@@ -1,6 +1,6 @@
 from flask_login import UserMixin
 from typing import List
-from sqlalchemy import Integer, String, Boolean, DateTime, ForeignKey, func
+from sqlalchemy import Integer, String, Boolean, DateTime, ForeignKey, func, Float
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 import datetime
 
@@ -44,3 +44,13 @@ class Plane(db.Model):
     name: Mapped[str] = mapped_column(String(1000))
     user: Mapped[User] = relationship("User", back_populates="planes")
     user_id: Mapped[int] = mapped_column(Integer, ForeignKey("user_table.id"))
+    timetable: Mapped[List["TimeEntry"]] = relationship(back_populates="plane")
+
+class TimeEntry(db.Model):
+    __tablename__ = "time_table"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    created: Mapped[datetime.datetime] = mapped_column(DateTime)
+    tach_time: Mapped[float] = mapped_column(Float)
+    plane: Mapped[Plane] = relationship("Plane", back_populates="timetable")
+    plane_id: Mapped[int] = mapped_column(Integer, ForeignKey("plane_table.id"))

@@ -15,7 +15,7 @@
     </tr>
     </thead>
     {% for time_entry in time_table %}
-    <td>{{ time_entry.created }}</td><td>{{time_entry.tach_time}}</td><td>{{ (time_entry.tach_time * 1.2) }}</td>
+    <td>{{ time_entry.created }}</td><td>{{time_entry.tach_time}}</td><td>{{ "%.1f" | format(time_entry.tach_time * 1.2) }}</td>
     {% endfor %}
     <tr>
         <form action="/add_time_entry" method="POST">

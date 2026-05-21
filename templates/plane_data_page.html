@@ -19,7 +19,7 @@
     {% endfor %}
     <tr>
         <form action="/add_time_entry" method="POST">
-        <td><input class="btn btn-link" value="Add" type="submit"></td><td><input name="tach_time" type="text"></td><td>---</td>
+        <td><input class="btn btn-link" value="Add" type="submit"></td><td><input class="custom-table-input" name="tach_time" type="text"></td><td>---</td>
         </form>
     </tr>
 </table>
@@ -33,7 +33,7 @@
 </thead>
     <tr>
         <form action="/add_maintenance_entry" method="POST">
-            <td><input name="description" type="text"></td><td><input name="date_due" type="text"></td><td><input name="tach_due" type="text"></td><td><input class="btn btn-link" value="Add" type="submit"></td>
+            <td><input style="width:150px;" name="description" type="text"></td><td><input class="custom-table-input" name="date_due" type="text"></td><td><input class="custom-table-input" name="tach_due" type="text"></td><td><input class="btn btn-link" value="Add" type="submit"></td>
         </form>
     </tr>
 {% for maintenance_item in maintenance_table %}

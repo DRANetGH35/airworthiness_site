@@ -2,7 +2,7 @@ from flask import render_template, redirect, url_for, jsonify, session
 from flask import request
 from flask_login import login_user, current_user, logout_user, login_required
 from extensions import db, send_verification_email
-from models import User, Plane, TimeEntry
+from models import User, Plane, TimeEntry, MaintenanceEntry
 from app import create_app
 from werkzeug.security import generate_password_hash, check_password_hash
 import random
@@ -61,9 +61,9 @@ def logout():
 @app.route('/plane_data/<plane_id>')
 def plane_data(plane_id):
     plane = db.session.execute(select(Plane).where(Plane.id == plane_id)).scalar()
+    maintenance_table = db.session.execute(select(MaintenanceEntry).where(MaintenanceEntry.plane_id == plane_id)).scalars().all()
     time_table = db.session.execute(select(TimeEntry).where(TimeEntry.plane_id == plane_id)).scalars().all()
-    print(time_table)
-    return render_template('plane_data_page.html', plane=plane, time_table=time_table)
+    return render_template('plane_data_page.html', plane=plane, time_table=time_table, maintenance_table=maintenance_table)
 
 @login_required
 @app.route('/add_plane', methods=['GET', 'POST'])
@@ -95,6 +95,23 @@ def add_time_entry():
     db.session.add(new_time_entry)
     db.session.commit()
     return redirect(f'/plane_data/{plane_id}')
+
+@login_required
+@app.route('/add_maintenance_entry', methods=['POST'])
+def add_maintenance_entry():
+    plane_id = request.referrer.split('/')[-1]
+    plane = db.session.execute(select(Plane).where(Plane.id == plane_id)).scalar()
+    description = request.form.get('description')
+    new_maintenance_item = MaintenanceEntry(description=description,
+                                            due_time=None,
+                                            due_tach=None,
+                                            status='Incomplete',
+                                            plane=plane,
+                                            plane_id=plane.id)
+    db.session.add(new_maintenance_item)
+    db.session.commit()
+    return redirect(f'/plane_data/{plane_id}')
+
 
 @login_required
 @app.route('/verify', methods=['POST'])

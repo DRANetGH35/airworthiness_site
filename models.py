@@ -45,6 +45,7 @@ class Plane(db.Model):
     user: Mapped[User] = relationship("User", back_populates="planes")
     user_id: Mapped[int] = mapped_column(Integer, ForeignKey("user_table.id"))
     timetable: Mapped[List["TimeEntry"]] = relationship(back_populates="plane")
+    maintenance_items: Mapped[List["MaintenanceEntry"]] = relationship(back_populates="plane")
 
 class TimeEntry(db.Model):
     __tablename__ = "time_table"
@@ -53,4 +54,15 @@ class TimeEntry(db.Model):
     created: Mapped[datetime.datetime] = mapped_column(DateTime)
     tach_time: Mapped[float] = mapped_column(Float)
     plane: Mapped[Plane] = relationship("Plane", back_populates="timetable")
+    plane_id: Mapped[int] = mapped_column(Integer, ForeignKey("plane_table.id"))
+
+class MaintenanceEntry(db.Model):
+    __tablename__ = "maintenance_table"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    description: Mapped[str] = mapped_column(String(1000), nullable=False)
+    due_time: Mapped[datetime.datetime] = mapped_column(DateTime, nullable=True)
+    due_tach: Mapped[float] = mapped_column(Float, nullable=True)
+    status: Mapped[str] = mapped_column(String(1000))
+    plane: Mapped[Plane] = relationship("Plane", back_populates="maintenance_items")
     plane_id: Mapped[int] = mapped_column(Integer, ForeignKey("plane_table.id"))

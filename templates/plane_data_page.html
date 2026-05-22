@@ -15,14 +15,17 @@
     </tr>
     </thead>
     {% for time_entry in time_table %}
+    <tr>
     <td>{{ time_entry.created }}</td><td>{{time_entry.tach_time}}</td><td>{{ "%.1f" | format(time_entry.tach_time * 1.2) }}</td>
+    </tr>
     {% endfor %}
     <tr>
-        <form action="/add_time_entry" method="POST">
-        <td><input class="btn btn-link" value="Add" type="submit"></td><td><input class="custom-table-input" name="tach_time" type="text"></td><td>---</td>
+        <form id="tach_time_form" action="/add_time_entry" method="POST">
+        <td><input id="time_submit" class="btn btn-link" value="Add" type="submit"></td><td><input id="tach_time" class="custom-table-input" name="tach_time" type="text"></td><td>---</td>
         </form>
     </tr>
 </table>
+    <p id="timeEntryError" class="error"></p>
 <div style="margin-top:10vh;">
 <h2>Maintenance Schedule</h2>
 <table class="table table-striped custom-table">
@@ -47,7 +50,7 @@
 
 </main>
 </body>
-
+<script src="{{ url_for('static', filename='plane_data.js') }}"></script>
 {% include 'footer.html' %}
 
 {% endblock %}

@@ -11,12 +11,12 @@
 <table style="width: 100vw;" class="table table-striped custom-table">
     <thead>
     <tr>
-        <th>Time</th><th>Tach</th><th>Hobbs(interpolated)</th>
+        <th>---</th><th>Tach</th><th>Hobbs(interpolated)</th>
     </tr>
     </thead>
     {% for time_entry in time_table %}
     <tr>
-    <td>{{ time_entry.created.strftime("%y-%m-%d %H:%M") }}</td><td>{{time_entry.tach_time}}</td><td>{{ "%.1f" | format(time_entry.tach_time * 1.2) }}</td>
+    <td>---</td><td>{{time_entry.tach_time}}</td><td>{{ "%.1f" | format(time_entry.tach_time * 1.2) }}</td>
     </tr>
     {% endfor %}
     <tr>

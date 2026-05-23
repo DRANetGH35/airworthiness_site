@@ -13,7 +13,9 @@ app = create_app()
 
 @app.route('/')
 def index():
-    planes = db.session.execute(select(Plane)).scalars().all()
+    planes = []
+    if current_user.is_authenticated:
+        planes = db.session.execute(select(Plane).where(Plane.user_id == current_user.id)).scalars().all()
     return render_template('index.html', current_user=current_user, planes=planes)
 
 @app.route('/register', methods=['GET', 'POST'])

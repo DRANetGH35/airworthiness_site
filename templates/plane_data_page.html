@@ -21,7 +21,7 @@
 <table style="width: 100vw;" class="table table-striped custom-table">
     <thead>
     <tr>
-        <th>Time</th><th>Tach</th>
+        <th>Time</th><th>Tach</th><th>Hobbs</th>
     </tr>
     </thead>
     {% for time_entry in time_table %}
@@ -31,7 +31,7 @@
     {% endfor %}
     <tr>
         <form id="tach_time_form" action="/add_time_entry" method="POST">
-        <td><input id="time_submit" class="btn btn-link" value="Add" type="submit"></td><td><input id="tach_time" class="custom-table-input" name="tach_time" type="text"></td>
+        <td><input id="time_submit" class="btn btn-link" value="Add" type="submit"></td><td><input id="tach_time" class="custom-table-input" name="tach_time" type="text"></td><td>---</td>
         </form>
     </tr>
 </table>

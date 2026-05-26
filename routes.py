@@ -130,15 +130,19 @@ def new_engine(plane_id):
 @login_required
 @app.route('/add_time_entry', methods=['POST'])
 def add_time_entry():
+    tach_time_input = float(request.form.get('tach_time'))
     plane_id = request.referrer.split('/')[-1]
     plane = db.session.execute(select(Plane).where(Plane.id == plane_id)).scalar()
     new_time_entry = TimeEntry(
         created = datetime.datetime.now(),
-        tach_time = request.form.get('tach_time'),
+        tach_time = tach_time_input,
         plane=plane,
         plane_id=plane_id
     )
     db.session.add(new_time_entry)
+    current_user.hobbs_time += tach_time_input * 1.2
+    plane.engines[-1].tach_hours += tach_time_input
+    plane.engines[-1].overhauls[-1].tach_hours += tach_time_input
     db.session.commit()
     return redirect(f'/plane_data/{plane_id}')
 

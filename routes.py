@@ -32,7 +32,8 @@ def register():
                         password=generate_password_hash(password, method='pbkdf2:sha256', salt_length=8),
                         is_admin=False,
                         verified=False,
-                        verification_code=verification_code
+                        verification_code=verification_code,
+                        hobbs_time=0
                         )
         db.session.add(new_user)
         db.session.commit()
@@ -89,15 +90,22 @@ def add_plane():
         db.session.add(new_engine)
         new_overhaul = Overhaul(engine=new_engine,
                                 engine_id=new_engine.id,
-                                time=datetime.datetime.now(),
+                                created=datetime.datetime.now(),
                                 tach_hours=request.form.get('overhaul-hours'))
         db.session.add(new_overhaul)
         db.session.commit()
         return redirect(url_for('index'))
     return render_template('add_plane.html')
 
-@app.route('/plane_data/<plane_id>/new_overhaul')
-def new_overhaul(plane_id):
+@app.route('/plane_data/<engine_id>/overhaul')
+def overhaul(engine_id):
+    engine = db.session.execute(select(Engine).where(Engine.id == engine_id)).scalar()
+    new_overhaul = Overhaul(engine=engine,
+                            engine_id=engine.id,
+                            created=datetime.datetime.now(),
+                            tach_hours=0)
+    db.session.add(new_overhaul)
+    db.session.commit()
     return redirect(request.referrer)
 
 @app.route('/plane_data/<plane_id>/add_new_engine', methods=['GET', 'POST'])
@@ -112,7 +120,7 @@ def new_engine(plane_id):
         db.session.add(new_engine)
         new_overhaul = Overhaul(engine=new_engine,
                                 engine_id=new_engine.id,
-                                time=datetime.datetime.now(),
+                                created=datetime.datetime.now(),
                                 tach_hours=request.form.get('overhaul-hours'))
         db.session.add(new_overhaul)
         db.session.commit()

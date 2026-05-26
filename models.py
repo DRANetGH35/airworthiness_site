@@ -17,6 +17,7 @@ class User(UserMixin, db.Model):
     verified: Mapped[bool] = mapped_column(Boolean, nullable=False)
     verification_code: Mapped[str] = mapped_column(String(1000))
     planes: Mapped[List["Plane"]] = relationship(back_populates="user")
+    hobbs_time: Mapped[float] = mapped_column(Float)
 
     @classmethod
     def exists(cls, username: str) -> bool:
@@ -62,11 +63,8 @@ class Engine(db.Model):
     plane_id: Mapped[int] = mapped_column(Integer, ForeignKey("plane_table.id"))
     serial: Mapped[int] = mapped_column(Integer)
     tach_hours: Mapped[float] = mapped_column(Float)
-    overhauls: Mapped[List["Overhaul"]] = relationship(back_populates="engine")
+    overhauls: Mapped[List["Overhaul"]] = relationship(back_populates="engine", order_by='Overhaul.created')
 
-    @classmethod
-    def get_latest(cls):
-        return cls.query.order_by(tach_hours).first()
 
 class Overhaul(db.Model):
     __tablename__ = "overhauls_table"
@@ -74,7 +72,7 @@ class Overhaul(db.Model):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     engine: Mapped[Engine] = relationship("Engine", back_populates="overhauls")
     engine_id: Mapped[int] = mapped_column(Integer, ForeignKey("engines_table.id"))
-    time: Mapped[datetime.datetime] = mapped_column(DateTime)
+    created: Mapped[datetime.datetime] = mapped_column(DateTime)
     tach_hours: Mapped[float] = mapped_column(Float)
 
     @classmethod

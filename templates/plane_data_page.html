@@ -7,24 +7,21 @@
 <main>
 <div class="custom-body">
 <div style="display:flex; flex-direction:column; align-items:center;">
-<h3>{{plane.name}}  -  {{ plane.id }}</h3>
+<h3>{{plane.name}}  -  {{ plane.id }}: {{plane.tach_hours}} (tach hours)</h3>
 <div style="display:flex; align-items:center;">
-<h6>Total Time: {{plane.tach_hours}}</h6>
+<h6>Pilot: {{current_user.name}}: {{current_user.hobbs_time}} (hobbs time)</h6>
 </div>
 <div style="display:flex; align-items:center; margin-top: 10px;">
-<h6>Engine: {{engine.serial}}</h6>
+<h6>Engine: {{engine.serial}}: {{ engine.tach_hours }} (tach hours)</h6><a href="/plane_data/{{plane.id}}/add_new_engine" class="btn btn-link">New engine</a>
 </div>
 <div style="display:flex; align-items:center;">
-<h6>Current Time: {{ engine.tach_hours }}</h6><a href="/plane_data/{{plane.id}}/add_new_engine" class="btn btn-link">New engine</a>
-</div>
-<div style="display:flex; align-items:center;">
-<h6>Since Major Overhaul: {{ engine.overhauls[0].tach_hours }}</h6><a class="btn btn-link">overhaul</a>
+<h6>Since Major Overhaul: {{ engine.overhauls[-1].tach_hours }}</h6><a href="/plane_data/{{engine.id}}/overhaul" class="btn btn-link">overhaul</a>
 </div>
 </div>
 <table style="width: 100vw;" class="table table-striped custom-table">
     <thead>
     <tr>
-        <th>Time</th><th>Tach</th><th>Hobbs(interpolated)</th>
+        <th>Time</th><th>Tach</th>
     </tr>
     </thead>
     {% for time_entry in time_table %}
@@ -34,7 +31,7 @@
     {% endfor %}
     <tr>
         <form id="tach_time_form" action="/add_time_entry" method="POST">
-        <td><input id="time_submit" class="btn btn-link" value="Add" type="submit"></td><td><input id="tach_time" class="custom-table-input" name="tach_time" type="text"></td><td>---</td>
+        <td><input id="time_submit" class="btn btn-link" value="Add" type="submit"></td><td><input id="tach_time" class="custom-table-input" name="tach_time" type="text"></td>
         </form>
     </tr>
 </table>

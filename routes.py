@@ -2,7 +2,7 @@ from flask import render_template, redirect, url_for, jsonify, session
 from flask import request
 from flask_login import login_user, current_user, logout_user, login_required
 from extensions import db, send_verification_email
-from models import User, Plane, TimeEntry, MaintenanceEntry
+from models import User, Plane, TimeEntry, MaintenanceEntry, Engine, Overhaul
 from app import create_app
 from werkzeug.security import generate_password_hash, check_password_hash
 import random
@@ -63,9 +63,10 @@ def logout():
 @app.route('/plane_data/<plane_id>')
 def plane_data(plane_id):
     plane = db.session.execute(select(Plane).where(Plane.id == plane_id)).scalar()
+    engine = plane.engines[-1]
     maintenance_table = db.session.execute(select(MaintenanceEntry).where(MaintenanceEntry.plane_id == plane_id)).scalars().all()
     time_table = db.session.execute(select(TimeEntry).where(TimeEntry.plane_id == plane_id)).scalars().all()
-    return render_template('plane_data_page.html', plane=plane, time_table=time_table, maintenance_table=maintenance_table)
+    return render_template('plane_data_page.html', plane=plane, time_table=time_table, maintenance_table=maintenance_table, engine=engine)
 
 @login_required
 @app.route('/add_plane', methods=['GET', 'POST'])
@@ -77,11 +78,46 @@ def add_plane():
             return render_template('add_plane.html', error=error)
         new_plane = Plane(name=plane_name,
                           user=current_user,
-                          user_id=current_user.id)
+                          user_id=current_user.id,
+                          tach_hours=request.form.get('aircraft-hours'))
         db.session.add(new_plane)
+        new_engine = Engine(plane=new_plane,
+                            serial=request.form.get('engine-serial'),
+                            tach_hours = request.form.get('engine-hours'),
+                            plane_id=new_plane.id,
+                            created=datetime.datetime.now())
+        db.session.add(new_engine)
+        new_overhaul = Overhaul(engine=new_engine,
+                                engine_id=new_engine.id,
+                                time=datetime.datetime.now(),
+                                tach_hours=request.form.get('overhaul-hours'))
+        db.session.add(new_overhaul)
         db.session.commit()
         return redirect(url_for('index'))
     return render_template('add_plane.html')
+
+@app.route('/plane_data/<plane_id>/new_overhaul')
+def new_overhaul(plane_id):
+    return redirect(request.referrer)
+
+@app.route('/plane_data/<plane_id>/add_new_engine', methods=['GET', 'POST'])
+def new_engine(plane_id):
+    if request.method == "POST":
+        plane = db.session.execute(select(Plane).where(Plane.id == plane_id)).scalar()
+        new_engine = Engine(plane=plane,
+                            serial=request.form.get('engine-serial'),
+                            tach_hours=request.form.get('engine-hours'),
+                            plane_id=plane.id,
+                            created=datetime.datetime.now())
+        db.session.add(new_engine)
+        new_overhaul = Overhaul(engine=new_engine,
+                                engine_id=new_engine.id,
+                                time=datetime.datetime.now(),
+                                tach_hours=request.form.get('overhaul-hours'))
+        db.session.add(new_overhaul)
+        db.session.commit()
+        return redirect(f'/plane_data/{plane_id}')
+    return render_template('add_new_engine.html', plane_id=plane_id)
 
 @login_required
 @app.route('/add_time_entry', methods=['POST'])
@@ -124,3 +160,9 @@ def verify():
         error = "incorrect code"
         return render_template('index.html', current_user=current_user, error=error)
     return redirect(url_for('index'))
+
+@app.route('/test')
+def test():
+    plane = db.session.execute(select(Plane)).scalars().first()
+    print(plane.engines[0])
+    return redirect(request.referrer)

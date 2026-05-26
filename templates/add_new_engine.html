@@ -3,13 +3,7 @@
 {% include 'navbar.html' %}
 <div class="custom-body">
 
-<form action="/add_plane" method="POST" style="display:flex; flex-direction: column; align-content:center;">
-    <label>Tail number
-        <input class="form-control" type="text" name="plane">
-    </label>
-    <label>Tach hours on aircraft
-        <input class="form-control" type="number" name="aircraft-hours">
-    </label>
+<form action="/plane_data/{{plane_id}}/add_new_engine" method="POST" style="display:flex; flex-direction: column; align-content:center;">
     <label>Engine serial number
         <input class="form-control" type="text" name="engine-serial">
     </label>

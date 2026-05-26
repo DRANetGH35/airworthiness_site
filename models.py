@@ -46,6 +46,40 @@ class Plane(db.Model):
     user_id: Mapped[int] = mapped_column(Integer, ForeignKey("user_table.id"))
     timetable: Mapped[List["TimeEntry"]] = relationship(back_populates="plane")
     maintenance_items: Mapped[List["MaintenanceEntry"]] = relationship(back_populates="plane")
+    engines: Mapped[List["Engine"]] = relationship(back_populates="plane", order_by="Engine.created")
+    tach_hours: Mapped[float] = mapped_column(Float)
+
+    @classmethod
+    def latest_engine(cls):
+        return cls.query.order_by(tach_hours).first()
+
+class Engine(db.Model):
+    __tablename__ = "engines_table"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    created: Mapped[datetime.datetime] = mapped_column(DateTime)
+    plane: Mapped[Plane] = relationship("Plane", back_populates="engines")
+    plane_id: Mapped[int] = mapped_column(Integer, ForeignKey("plane_table.id"))
+    serial: Mapped[int] = mapped_column(Integer)
+    tach_hours: Mapped[float] = mapped_column(Float)
+    overhauls: Mapped[List["Overhaul"]] = relationship(back_populates="engine")
+
+    @classmethod
+    def get_latest(cls):
+        return cls.query.order_by(tach_hours).first()
+
+class Overhaul(db.Model):
+    __tablename__ = "overhauls_table"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    engine: Mapped[Engine] = relationship("Engine", back_populates="overhauls")
+    engine_id: Mapped[int] = mapped_column(Integer, ForeignKey("engines_table.id"))
+    time: Mapped[datetime.datetime] = mapped_column(DateTime)
+    tach_hours: Mapped[float] = mapped_column(Float)
+
+    @classmethod
+    def get_latest(cls):
+        return cls.query.filter_by(id=user_id).first()
 
 class TimeEntry(db.Model):
     __tablename__ = "time_table"

@@ -83,7 +83,6 @@ def add_plane():
                           tach_hours=request.form.get('aircraft-hours'))
         db.session.add(new_plane)
         new_engine = Engine(plane=new_plane,
-                            serial=request.form.get('engine-serial'),
                             tach_hours = request.form.get('engine-hours'),
                             plane_id=new_plane.id,
                             created=datetime.datetime.now())
@@ -113,7 +112,6 @@ def new_engine(plane_id):
     if request.method == "POST":
         plane = db.session.execute(select(Plane).where(Plane.id == plane_id)).scalar()
         new_engine = Engine(plane=plane,
-                            serial=request.form.get('engine-serial'),
                             tach_hours=request.form.get('engine-hours'),
                             plane_id=plane.id,
                             created=datetime.datetime.now())

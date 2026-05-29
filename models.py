@@ -61,7 +61,6 @@ class Engine(db.Model):
     created: Mapped[datetime.datetime] = mapped_column(DateTime)
     plane: Mapped[Plane] = relationship("Plane", back_populates="engines")
     plane_id: Mapped[int] = mapped_column(Integer, ForeignKey("plane_table.id"))
-    serial: Mapped[int] = mapped_column(Integer)
     tach_hours: Mapped[float] = mapped_column(Float)
     overhauls: Mapped[List["Overhaul"]] = relationship(back_populates="engine", order_by='Overhaul.created')
 

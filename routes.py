@@ -138,6 +138,7 @@ def add_time_entry():
         plane_id=plane_id
     )
     db.session.add(new_time_entry)
+    plane.tach_hours += tach_time_input
     current_user.hobbs_time += tach_time_input * 1.2
     plane.engines[-1].tach_hours += tach_time_input
     plane.engines[-1].overhauls[-1].tach_hours += tach_time_input

@@ -46,12 +46,12 @@
 </thead>
     <tr>
         <form action="/add_maintenance_entry" method="POST">
-            <td><input style="width:150px;" name="description" type="text"></td><td><input class="custom-table-input" name="date_due" type="text"></td><td><input class="custom-table-input" name="tach_due" type="text"></td><td><input class="btn btn-link" value="Add" type="submit"></td>
+            <td><input style="width:150px;" name="description" type="text"></td><td><input class="custom-table-input" name="due_date" type="text"></td><td><input class="custom-table-input" name="due_tach" type="text"></td><td><input class="btn btn-link" value="Add" type="submit"></td>
         </form>
     </tr>
 {% for maintenance_item in maintenance_table %}
     <tr>
-        <td>{{ maintenance_item.description }}</td><td>{{ maintenance_item.due_time }}</td><td>{{ maintenance_item.due_tach }}</td><td>{{ maintenance_item.status }}</td>
+        <td>{{ maintenance_item.description }}</td><td>{{ maintenance_item.due_date }}</td><td>{{ maintenance_item.due_tach }}</td><td>{{ maintenance_item.status }}</td>
     </tr>
 {% endfor %}
 </table>

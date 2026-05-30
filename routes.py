@@ -151,9 +151,12 @@ def add_maintenance_entry():
     plane_id = request.referrer.split('/')[-1]
     plane = db.session.execute(select(Plane).where(Plane.id == plane_id)).scalar()
     description = request.form.get('description')
+    due_date = request.form.get('due_date')
+    if due_date == "":
+        due_date = None
     new_maintenance_item = MaintenanceEntry(description=description,
-                                            due_time=None,
-                                            due_tach=None,
+                                            due_date=due_date,
+                                            due_tach=request.form.get('due_tach'),
                                             status='Incomplete',
                                             plane=plane,
                                             plane_id=plane.id)

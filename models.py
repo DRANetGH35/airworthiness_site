@@ -92,7 +92,7 @@ class MaintenanceEntry(db.Model):
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     description: Mapped[str] = mapped_column(String(1000), nullable=False)
-    due_time: Mapped[datetime.datetime] = mapped_column(DateTime, nullable=True)
+    due_date: Mapped[datetime.datetime] = mapped_column(DateTime, nullable=True)
     due_tach: Mapped[float] = mapped_column(Float, nullable=True)
     status: Mapped[str] = mapped_column(String(1000))
     plane: Mapped[Plane] = relationship("Plane", back_populates="maintenance_items")

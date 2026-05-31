@@ -45,9 +45,7 @@
 </tr>
 </thead>
     <tr>
-        <form action="/add_maintenance_entry" method="POST">
-            <td><input style="width:150px;" name="description" type="text"></td><td><input class="custom-table-input" name="due_date" type="text"></td><td><input class="custom-table-input" name="due_tach" type="text"></td><td><input class="btn btn-link" value="Add" type="submit"></td>
-        </form>
+            <td><a href="/plane_data/{{ plane.id }}/add_maintenance_item" class="btn btn-link">Add</a></td><td></td><td></td><td></td>
     </tr>
 {% for maintenance_item in maintenance_table %}
     <tr>

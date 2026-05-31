@@ -2,6 +2,13 @@ h6{
     margin-bottom:0;
 }
 
+.hidden{
+    display:none;
+}
+.show{
+    display:flex;
+}
+
 .custom-main{
     display:flex;
     justify-content:center;

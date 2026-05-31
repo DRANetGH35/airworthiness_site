@@ -1,0 +1,60 @@
+{% from "bootstrap5/form.html" import render_form %}
+{% extends "base.html" %} {% block content %}
+{% include 'navbar.html' %}
+<div class="custom-body">
+
+<h3>Add new maintenance item</h3>
+<div style="display:flex; flex-direction:row;">
+<form id="form" action="/plane_data/{{plane.id}}/add_maintenance_item" method="POST" style="display:flex; flex-direction: column; align-content:center;">
+
+    <label>Description
+        <input class="form-control" type="text" name="description" id="description">
+    </label>
+    <p class="error" id="description_error"></p>
+    <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+      <input type="radio" class="btn-check" name="single_interval_option" id="single_radio" autocomplete="off" checked>
+      <label class="btn btn-outline-primary" for="single_radio">Single</label>
+
+      <input type="radio" class="btn-check" name="single_interval_option" id="interval_radio" autocomplete="off">
+      <label class="btn btn-outline-primary" for="interval_radio">Interval</label>
+    </div>
+    <div id="single_div" class="show" style="flex-direction:column;">
+        <label>Tach hours until due next
+            <input class="form-control" type="number" name="tach_hours_due">
+        </label>
+        <label>Date due next
+            <input class="form-control" type="date" name="date_due" id="date_due">
+        </label>
+    </div>
+    <div id="interval_div" class="hidden" style="flex-direction:column;">
+    <label>Tach hours since last completed
+        <input class="form-control" type="number" name="tach_hours_last_complete" id="tach_hours_last_complete">
+    </label>
+        <p class="error" id="tach_hours_last_complete_error"></p>
+    <label>Date last completed
+        <input class="form-control" type="date" name="date_last_completed" id="date_last_complete">
+    </label>
+        <p class="error" id="date_last_complete_error"></p>
+        <label>Interval in hours
+        <input id="interval_hours" class="form-control" type="number" disabled>
+        </label>
+        <p class="error" id="interval_hours_error"></p>
+        <label>Interval in months
+        <input id="interval_months" class="form-control" type="number" disabled>
+        </label>
+        <p class="error" id="interval_months_error"></p>
+    </div>
+    <input class="btn btn-primary" type="submit">
+
+</form>
+    <div style="display:flex; flex-direction:column;">
+
+
+    </div>
+</div>
+<p id='error' class="error">{{error}}</p>
+
+</div>
+<script src="{{ url_for('static', filename="add_maintenance_item.js") }}"></script>
+{% include 'footer.html' %}
+{% endblock %}

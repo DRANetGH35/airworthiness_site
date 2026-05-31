@@ -146,24 +146,26 @@ def add_time_entry():
     return redirect(f'/plane_data/{plane_id}')
 
 @login_required
-@app.route('/add_maintenance_entry', methods=['POST'])
-def add_maintenance_entry():
-    plane_id = request.referrer.split('/')[-1]
+@app.route('/plane_data/<plane_id>/add_maintenance_item', methods=['GET', 'POST'])
+def add_maintenance_entry(plane_id):
     plane = db.session.execute(select(Plane).where(Plane.id == plane_id)).scalar()
-    description = request.form.get('description')
-    due_date = request.form.get('due_date')
-    if due_date == "":
-        due_date = None
-    new_maintenance_item = MaintenanceEntry(description=description,
-                                            due_date=due_date,
-                                            due_tach=request.form.get('due_tach'),
-                                            status='Incomplete',
-                                            plane=plane,
-                                            plane_id=plane.id)
-    db.session.add(new_maintenance_item)
-    db.session.commit()
-    return redirect(f'/plane_data/{plane_id}')
-
+    if request.method == "POST":
+        plane_id = plane_id
+        plane = db.session.execute(select(Plane).where(Plane.id == plane_id)).scalar()
+        description = request.form.get('description')
+        due_date = request.form.get('due_date')
+        if due_date == "":
+            due_date = None
+        new_maintenance_item = MaintenanceEntry(description=description,
+                                                due_date=due_date,
+                                                due_tach=request.form.get('due_tach'),
+                                                status='Incomplete',
+                                                plane=plane,
+                                                plane_id=plane.id)
+        db.session.add(new_maintenance_item)
+        db.session.commit()
+        return redirect(f'/plane_data/{plane_id}')
+    return render_template('add_maintenance_item.html', plane=plane)
 
 @login_required
 @app.route('/verify', methods=['POST'])

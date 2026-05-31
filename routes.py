@@ -161,17 +161,21 @@ def add_maintenance_entry(plane_id):
         plane = db.session.execute(select(Plane).where(Plane.id == plane_id)).scalar()
         description = request.form.get('description')
         interval = request.form.get('interval_option') == "interval"
-        print(description, interval)
         if interval:
-            tach_last_completed = request.form.get('tach_hours_last_complete')
-            date_last_completed = datetime.datetime.strptime(request.form.get('date_last_complete'), '%Y-%m-%d')
-            interval_hours = request.form.get('interval_hours')
-            interval_months = request.form.get('interval_months')
-            print(tach_last_completed, date_last_completed, interval_hours, interval_months)
+            if request.form.get('tach_hours_last_complete') != '':
+                tach_last_completed = float(request.form.get('tach_hours_last_complete'))
+            if request.form.get('date_last_complete') is not '':
+                date_last_completed = datetime.datetime.strptime(request.form.get('date_last_complete'), '%Y-%m-%d')
+            if request.form.get('interval_hours') is not None:
+                interval_hours = float(request.form.get('interval_hours'))
+            if request.form.get('interval_months') != None:
+                interval_months = float(request.form.get('interval_months'))
+            due_tach = tach_last_completed + interval_hours if interval_hours is not None else None
+            date_due = date_last_completed + datetime.timedelta(days=interval_months * 30) if interval_months is not None else None
         else:
-            tach_hours_due = request.form.get('tach_hours_due')
-            date_due = datetime.datetime.strptime(request.form.get('date_due'), '%Y-%m-%d')
-            print(tach_hours_due, date_due)
+            due_tach = request.form.get('tach_hours_due')
+            if request.form.get('date_due') != '':
+                date_due = datetime.datetime.strptime(request.form.get('date_due'), '%Y-%m-%d')
 
         new_maintenance_item = MaintenanceEntry(description=description,
                                                 interval=interval,

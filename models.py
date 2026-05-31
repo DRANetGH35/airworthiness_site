@@ -95,6 +95,8 @@ class MaintenanceEntry(db.Model):
     description: Mapped[str] = mapped_column(String(1000), nullable=False)
     tach_last_completed: Mapped[float] = mapped_column(Float, nullable=True)
     date_last_completed: Mapped[datetime.datetime] = mapped_column(DateTime, nullable=True)
+    interval_hours: Mapped[float] = mapped_column(Float, nullable=True)
+    interval_months: Mapped[float] = mapped_column(Float, nullable=True)
     due_date: Mapped[datetime.datetime] = mapped_column(DateTime, nullable=True)
     due_tach: Mapped[float] = mapped_column(Float, nullable=True)
     status: Mapped[str] = mapped_column(String(1000))

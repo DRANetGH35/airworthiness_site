@@ -12,10 +12,10 @@
     </label>
     <p class="error" id="description_error"></p>
     <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-      <input type="radio" class="btn-check" name="single_interval_option" id="single_radio" autocomplete="off" checked>
+      <input type="radio" class="btn-check" name="interval_option" id="single_radio" value="single" autocomplete="off" checked>
       <label class="btn btn-outline-primary" for="single_radio">Single</label>
 
-      <input type="radio" class="btn-check" name="single_interval_option" id="interval_radio" autocomplete="off">
+      <input type="radio" class="btn-check" name="interval_option" id="interval_radio" value="interval" autocomplete="off">
       <label class="btn btn-outline-primary" for="interval_radio">Interval</label>
     </div>
     <div id="single_div" class="show" style="flex-direction:column;">
@@ -32,15 +32,15 @@
     </label>
         <p class="error" id="tach_hours_last_complete_error"></p>
     <label>Date last completed
-        <input class="form-control" type="date" name="date_last_completed" id="date_last_complete">
+        <input class="form-control" type="date" name="date_last_complete" id="date_last_complete">
     </label>
         <p class="error" id="date_last_complete_error"></p>
         <label>Interval in hours
-        <input id="interval_hours" class="form-control" type="number" disabled>
+        <input name="interval_hours" id="interval_hours" class="form-control" type="number" disabled>
         </label>
         <p class="error" id="interval_hours_error"></p>
         <label>Interval in months
-        <input id="interval_months" class="form-control" type="number" disabled>
+        <input name="interval_months" id="interval_months" class="form-control" type="number" disabled>
         </label>
         <p class="error" id="interval_months_error"></p>
     </div>

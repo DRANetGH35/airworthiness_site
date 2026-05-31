@@ -150,18 +150,41 @@ def add_time_entry():
 def add_maintenance_entry(plane_id):
     plane = db.session.execute(select(Plane).where(Plane.id == plane_id)).scalar()
     if request.method == "POST":
+        tach_last_completed = None
+        date_last_completed = None
+        interval_hours = None
+        interval_months = None
+        due_tach = None
+        date_due = None
+
         plane_id = plane_id
         plane = db.session.execute(select(Plane).where(Plane.id == plane_id)).scalar()
         description = request.form.get('description')
-        due_date = request.form.get('due_date')
-        if due_date == "":
-            due_date = None
+        interval = request.form.get('interval_option') == "interval"
+        print(description, interval)
+        if interval:
+            tach_last_completed = request.form.get('tach_hours_last_complete')
+            date_last_completed = datetime.datetime.strptime(request.form.get('date_last_complete'), '%Y-%m-%d')
+            interval_hours = request.form.get('interval_hours')
+            interval_months = request.form.get('interval_months')
+            print(tach_last_completed, date_last_completed, interval_hours, interval_months)
+        else:
+            tach_hours_due = request.form.get('tach_hours_due')
+            date_due = datetime.datetime.strptime(request.form.get('date_due'), '%Y-%m-%d')
+            print(tach_hours_due, date_due)
+
         new_maintenance_item = MaintenanceEntry(description=description,
-                                                due_date=due_date,
-                                                due_tach=request.form.get('due_tach'),
+                                                interval=interval,
+                                                tach_last_completed=tach_last_completed,
+                                                date_last_completed=date_last_completed,
+                                                interval_hours=interval_hours,
+                                                interval_months=interval_months,
+                                                due_date=date_due,
+                                                due_tach=due_tach,
                                                 status='Incomplete',
                                                 plane=plane,
                                                 plane_id=plane.id)
+
         db.session.add(new_maintenance_item)
         db.session.commit()
         return redirect(f'/plane_data/{plane_id}')

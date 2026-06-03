@@ -160,11 +160,12 @@ def add_maintenance_entry(plane_id):
         plane_id = plane_id
         plane = db.session.execute(select(Plane).where(Plane.id == plane_id)).scalar()
         description = request.form.get('description')
+        maintenance_type = request.form.get('maintenance_type')
         interval = request.form.get('interval_option') == "interval"
         if interval:
             if request.form.get('tach_hours_last_complete') != '':
                 tach_last_completed = float(request.form.get('tach_hours_last_complete'))
-            if request.form.get('date_last_complete') is not '':
+            if request.form.get('date_last_complete') != '':
                 date_last_completed = datetime.datetime.strptime(request.form.get('date_last_complete'), '%Y-%m-%d')
             if request.form.get('interval_hours') is not None:
                 interval_hours = float(request.form.get('interval_hours'))
@@ -178,6 +179,7 @@ def add_maintenance_entry(plane_id):
                 date_due = datetime.datetime.strptime(request.form.get('date_due'), '%Y-%m-%d')
 
         new_maintenance_item = MaintenanceEntry(description=description,
+                                                maintenance_type=maintenance_type,
                                                 interval=interval,
                                                 tach_last_completed=tach_last_completed,
                                                 date_last_completed=date_last_completed,

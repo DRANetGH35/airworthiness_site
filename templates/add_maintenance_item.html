@@ -12,6 +12,13 @@
     </label>
     <p class="error" id="description_error"></p>
     <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+      <input type="radio" class="btn-check" name="maintenance_type" id="maintenance_type_aircraft" value="aircraft" autocomplete="off" checked>
+      <label class="btn btn-outline-primary" for="maintenance_type_aircraft">Aircraft</label>
+
+      <input type="radio" class="btn-check" name="maintenance_type" id="maintenance_type_engine" value="engine" autocomplete="off">
+      <label class="btn btn-outline-primary" for="maintenance_type_engine">Engine</label>
+    </div>
+    <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
       <input type="radio" class="btn-check" name="interval_option" id="single_radio" value="single" autocomplete="off" checked>
       <label class="btn btn-outline-primary" for="single_radio">Single</label>
 
@@ -57,6 +64,6 @@
 <p id='error' class="error">{{error}}</p>
 
 </div>
-<script src="{{ url_for('static', filename="add_maintenance_item.js") }}"></script>
+<script src="{{ url_for('static', filename='add_maintenance_item.js') }}"></script>
 {% include 'footer.html' %}
 {% endblock %}

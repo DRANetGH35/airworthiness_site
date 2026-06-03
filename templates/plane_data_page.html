@@ -7,18 +7,18 @@
 <main>
 <div class="custom-body">
 <div style="display:flex; flex-direction:column; align-items:center;">
-<h3>{{plane.name}}  -  {{ plane.id }}: {{plane.tach_hours}} (tach hours)</h3>
+<h3 id="plane">{{plane.name}}  -  {{ plane.id }}: {{plane.tach_hours}} (tach hours)</h3>
 <div style="display:flex; align-items:center;">
 <h6>Pilot: {{current_user.name}}: {{current_user.hobbs_time}} (hobbs time)</h6>
 </div>
 <div style="display:flex; align-items:center; margin-top: 10px;">
-<h6>Engine: {{engine.serial}}: {{ engine.tach_hours }} (tach hours)</h6><a href="/plane_data/{{plane.id}}/add_new_engine" class="btn btn-link">New engine</a>
+<h6 id="engine">Engine: {{engine.serial}}: {{ engine.tach_hours }} (tach hours)</h6><a href="/plane_data/{{plane.id}}/add_new_engine" class="btn btn-link">New engine</a>
 </div>
 <div style="display:flex; align-items:center;">
 <h6>Since Major Overhaul: {{ engine.overhauls[-1].tach_hours }}</h6><a href="/plane_data/{{engine.id}}/overhaul" class="btn btn-link">overhaul</a>
 </div>
 </div>
-<table style="width: 100vw;" class="table table-striped custom-table">
+<table style="width: 100vw;" class="table table-striped custom-table table-dark">
     <thead>
     <tr>
         <th>Time</th><th>Tach</th><th>Hobbs</th>
@@ -38,7 +38,7 @@
     <p id="timeEntryError" class="error"></p>
 <div style="margin-top:10vh;">
 <h2>Maintenance Schedule</h2>
-<table class="table table-striped custom-table">
+<table class="table table-striped custom-table" id="maintenance_table">
 <thead>
 <tr>
     <td>item</td><td>date due</td></td><td>time due(tach)</td><td>complete</td>
@@ -48,7 +48,7 @@
             <td><a href="/plane_data/{{ plane.id }}/add_maintenance_item" class="btn btn-link">Add</a></td><td></td><td></td><td></td>
     </tr>
 {% for maintenance_item in maintenance_table %}
-    <tr>
+    <tr data-maintenance_type="{{ maintenance_item.maintenance_type }}">
     {% set due_tach_formatted = maintenance_item.due_tach if maintenance_item.due_tach is not none else '---'%}
     {% if maintenance_item.due_date is not none %}
     {% set due_date_formatted = maintenance_item.due_date.strftime('%Y-%m-%d') %}

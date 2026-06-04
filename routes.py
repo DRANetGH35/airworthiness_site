@@ -174,7 +174,7 @@ def add_maintenance_entry(plane_id):
             due_tach = tach_last_completed + interval_hours if interval_hours is not None else None
             date_due = date_last_completed + datetime.timedelta(days=interval_months * 30) if interval_months is not None else None
         else:
-            due_tach = request.form.get('tach_hours_due')
+            due_tach = request.form.get('tach_hours_due') if request.form.get('tach_hours_due') != '' else None
             if request.form.get('date_due') != '':
                 date_due = datetime.datetime.strptime(request.form.get('date_due'), '%Y-%m-%d')
 

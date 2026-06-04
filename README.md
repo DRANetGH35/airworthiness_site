@@ -1,5 +1,11 @@
 TODO
 
-option to select date when entering time
+fix 5 most recent instead of 5 oldest
 
-maintenance items can be due by time or date
+delete entries
+
+complete maintenance_items
+
+edit maintenance_items
+
+remove incomplete column

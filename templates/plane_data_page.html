@@ -48,7 +48,7 @@
             <td><a href="/plane_data/{{ plane.id }}/add_maintenance_item" class="btn btn-link">Add</a></td><td></td><td></td><td></td>
     </tr>
 {% for maintenance_item in maintenance_table %}
-    <tr data-maintenance_type="{{ maintenance_item.maintenance_type }}">
+    <tr data-maintenance_type="{{ maintenance_item.maintenance_type }}" data-interval="{{ maintenance_item.interval }}" data-interval_hours="{{ maintenance_item.interval_hours }}" data-interval_months="{{ maintenance_item.interval_months }}">
     {% set due_tach_formatted = maintenance_item.due_tach if maintenance_item.due_tach is not none else '---'%}
     {% if maintenance_item.due_date is not none %}
     {% set due_date_formatted = maintenance_item.due_date.strftime('%Y-%m-%d') %}

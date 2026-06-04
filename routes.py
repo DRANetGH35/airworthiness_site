@@ -66,7 +66,7 @@ def plane_data(plane_id):
     plane = db.session.execute(select(Plane).where(Plane.id == plane_id)).scalar()
     engine = plane.engines[-1]
     maintenance_table = db.session.execute(select(MaintenanceEntry).where(MaintenanceEntry.plane_id == plane_id)).scalars().all()
-    time_table = db.session.execute(select(TimeEntry).where(TimeEntry.plane_id == plane_id)).scalars().all()
+    time_table = db.session.execute(select(TimeEntry).where(TimeEntry.plane_id == plane_id).limit(5)).scalars().all()
     return render_template('plane_data_page.html', plane=plane, time_table=time_table, maintenance_table=maintenance_table, engine=engine)
 
 @login_required

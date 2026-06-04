@@ -5,10 +5,10 @@
 
 <form action="/plane_data/{{plane_id}}/add_new_engine" method="POST" style="display:flex; flex-direction: column; align-content:center;">
     <label>Tach hours on engine
-        <input class="form-control" type="number" name="engine-hours">
+        <input class="form-control" type="number" step="any" name="engine-hours">
     </label>
     <label>Tach hours since last overhaul
-        <input class="form-control" type="number" name="overhaul-hours">
+        <input class="form-control" type="number" step="any" name="overhaul-hours">
     </label>
     <input class="btn btn-primary" type="submit">
 </form>

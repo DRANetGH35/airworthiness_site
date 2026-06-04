@@ -27,7 +27,7 @@
     </div>
     <div id="single_div" class="show" style="flex-direction:column;">
         <label>Due next (tach hours)
-            <input class="form-control" type="number" name="tach_hours_due">
+            <input class="form-control" type="number" step="any" name="tach_hours_due">
         </label>
         <label>Due next (date)
             <input class="form-control" type="date" name="date_due" id="date_due">
@@ -36,7 +36,7 @@
     <div id="interval_div" class="hidden" style="flex-direction:column;">
     <h5 style="padding-bottom: 20px;">When was this last completed?</h5>
     <label>Tach hours since last completed
-        <input class="form-control" type="number" name="tach_hours_last_complete" id="tach_hours_last_complete">
+        <input class="form-control" type="number" step="any" name="tach_hours_last_complete" id="tach_hours_last_complete">
     </label>
         <p class="error" id="tach_hours_last_complete_error"></p>
     <label>Date last completed
@@ -45,11 +45,11 @@
     <p class="error" id="date_last_complete_error"></p>
     <h5 style="padding-top:50px;">What's the interval?</h5>
     <label>Interval in hours
-        <input name="interval_hours" id="interval_hours" class="form-control" type="number" disabled>
+        <input name="interval_hours" id="interval_hours" class="form-control" type="number" step="any" disabled>
     </label>
     <p class="error" id="interval_hours_error"></p>
     <label>Interval in months
-        <input name="interval_months" id="interval_months" class="form-control" type="number" disabled>
+        <input name="interval_months" id="interval_months" class="form-control" type="number" step="any" disabled>
     </label>
     <p class="error" id="interval_months_error"></p>
     </div>

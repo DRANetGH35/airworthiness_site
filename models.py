@@ -91,7 +91,7 @@ class MaintenanceEntry(db.Model):
     __tablename__ = "maintenance_table"
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    maintenance_type: Mapped[str] = mapped_column(String(1000))
+    maintenance_type: Mapped[str] = mapped_column(String(1000), nullable=True)
     interval: Mapped[bool] = mapped_column(Boolean, nullable=False)
     description: Mapped[str] = mapped_column(String(1000), nullable=False)
     tach_last_completed: Mapped[float] = mapped_column(Float, nullable=True)

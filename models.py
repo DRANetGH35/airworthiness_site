@@ -63,6 +63,7 @@ class Engine(db.Model):
     plane_id: Mapped[int] = mapped_column(Integer, ForeignKey("plane_table.id"))
     tach_hours: Mapped[float] = mapped_column(Float)
     overhauls: Mapped[List["Overhaul"]] = relationship(back_populates="engine", order_by='Overhaul.created')
+    time_entries: Mapped[List["TimeEntry"]] = relationship(back_populates="engine")
 
 
 class Overhaul(db.Model):
@@ -73,6 +74,7 @@ class Overhaul(db.Model):
     engine_id: Mapped[int] = mapped_column(Integer, ForeignKey("engines_table.id"))
     created: Mapped[datetime.datetime] = mapped_column(DateTime)
     tach_hours: Mapped[float] = mapped_column(Float)
+    time_entries: Mapped[List["TimeEntry"]] = relationship(back_populates="overhauls")
 
     @classmethod
     def get_latest(cls):
@@ -86,6 +88,10 @@ class TimeEntry(db.Model):
     tach_time: Mapped[float] = mapped_column(Float)
     plane: Mapped[Plane] = relationship("Plane", back_populates="timetable")
     plane_id: Mapped[int] = mapped_column(Integer, ForeignKey("plane_table.id"))
+    engine: Mapped[Engine] = relationship("Engine", back_populates="time_entries")
+    engine_id: Mapped[int] = mapped_column(Integer, ForeignKey("engines_table.id"), nullable=True)
+    overhaul: Mapped[Overhaul] = relationship("Overhaul", back_populates="time_entries")
+    overhaul_id: Mapped[int] = mapped_column(Integer, ForeignKey("overhauls_table.id"), nullable=True)
 
 class MaintenanceEntry(db.Model):
     __tablename__ = "maintenance_table"

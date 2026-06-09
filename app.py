@@ -16,7 +16,7 @@ def create_app():
     app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=30)  # Time the user out after 30 minutes
 
     db.init_app(app)
-    migrate.init_app(app, db)
+    migrate.init_app(app, db, render_as_batch=True)
     login_manager.init_app(app)
     bootstrap.init_app(app)
 

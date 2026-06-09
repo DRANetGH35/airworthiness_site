@@ -74,7 +74,7 @@ class Overhaul(db.Model):
     engine_id: Mapped[int] = mapped_column(Integer, ForeignKey("engines_table.id"))
     created: Mapped[datetime.datetime] = mapped_column(DateTime)
     tach_hours: Mapped[float] = mapped_column(Float)
-    time_entries: Mapped[List["TimeEntry"]] = relationship(back_populates="overhauls")
+    time_entries: Mapped[List["TimeEntry"]] = relationship(back_populates="overhaul")
 
     @classmethod
     def get_latest(cls):

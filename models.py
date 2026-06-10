@@ -73,8 +73,15 @@ class Engine(db.Model):
     time_entries: Mapped[List["TimeEntry"]] = relationship(back_populates="engine")
 
     @classmethod
-    def latest_overhaul(cls):
-        return cls.query.first()
+    def get_latest_overhaul(cls):
+        stmt = (
+            select(Overhaul)
+            .join(Engine.overhauls)
+            .where(Engine.id == cls.id)
+            .order_by(Overhaul.id.desc())
+            .limit(1)
+        )
+        return db.session.scalars(stmt).first()
 
 
 class Overhaul(db.Model):

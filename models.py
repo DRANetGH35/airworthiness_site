@@ -1,6 +1,6 @@
 from flask_login import UserMixin
 from typing import List
-from sqlalchemy import Integer, String, Boolean, DateTime, ForeignKey, func, Float
+from sqlalchemy import Integer, String, Boolean, DateTime, ForeignKey, func, Float, select
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 import datetime
 
@@ -51,8 +51,15 @@ class Plane(db.Model):
     tach_hours: Mapped[float] = mapped_column(Float)
 
     @classmethod
-    def latest_engine(cls):
-        return cls.query.order_by(tach_hours).first()
+    def get_latest_engine(cls):
+        stmt = (
+            select(Engine)
+            .join(Plane.engines)
+            .where(Plane.id == cls.id)
+            .order_by(Engine.id.asc())
+            .limit(1)
+        )
+        return db.session.scalars(stmt).first()
 
 class Engine(db.Model):
     __tablename__ = "engines_table"
@@ -65,6 +72,10 @@ class Engine(db.Model):
     overhauls: Mapped[List["Overhaul"]] = relationship(back_populates="engine", order_by='Overhaul.created')
     time_entries: Mapped[List["TimeEntry"]] = relationship(back_populates="engine")
 
+    @classmethod
+    def latest_overhaul(cls):
+        return cls.query.first()
+
 
 class Overhaul(db.Model):
     __tablename__ = "overhauls_table"
@@ -76,9 +87,6 @@ class Overhaul(db.Model):
     tach_hours: Mapped[float] = mapped_column(Float)
     time_entries: Mapped[List["TimeEntry"]] = relationship(back_populates="overhaul")
 
-    @classmethod
-    def get_latest(cls):
-        return cls.query.filter_by(id=user_id).first()
 
 class TimeEntry(db.Model):
     __tablename__ = "time_table"

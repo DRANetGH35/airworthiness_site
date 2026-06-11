@@ -48,9 +48,9 @@ class Plane(db.Model):
     timetable: Mapped[List["TimeEntry"]] = relationship(back_populates="plane")
     maintenance_items: Mapped[List["MaintenanceEntry"]] = relationship(back_populates="plane")
     engines: Mapped[List["Engine"]] = relationship(back_populates="plane", order_by="Engine.created")
+    initial_tach_hours: Mapped[float] = mapped_column(Float, nullable=True)
     tach_hours: Mapped[float] = mapped_column(Float)
 
-    @classmethod
     def get_latest_engine(cls):
         stmt = (
             select(Engine)
@@ -61,6 +61,12 @@ class Plane(db.Model):
         )
         return db.session.scalars(stmt).first()
 
+    def updateTachHours(self):
+        total = 0 if self.initial_tach_hours is None else self.initial_tach_hours
+        for time_entry in self.timetable:
+            total += time_entry.tach_time
+        self.tach_hours = total
+
 class Engine(db.Model):
     __tablename__ = "engines_table"
 
@@ -68,11 +74,11 @@ class Engine(db.Model):
     created: Mapped[datetime.datetime] = mapped_column(DateTime)
     plane: Mapped[Plane] = relationship("Plane", back_populates="engines")
     plane_id: Mapped[int] = mapped_column(Integer, ForeignKey("plane_table.id"))
+    initial_tach_hours: Mapped[float] = mapped_column(Float, nullable=True)
     tach_hours: Mapped[float] = mapped_column(Float)
     overhauls: Mapped[List["Overhaul"]] = relationship(back_populates="engine", order_by='Overhaul.created')
     time_entries: Mapped[List["TimeEntry"]] = relationship(back_populates="engine")
 
-    @classmethod
     def get_latest_overhaul(cls):
         stmt = (
             select(Overhaul)
@@ -83,6 +89,11 @@ class Engine(db.Model):
         )
         return db.session.scalars(stmt).first()
 
+    def updateTachHours(self):
+        total = 0 if self.initial_tach_hours is None else self.initial_tach_hours
+        for time_entry in self.time_entries:
+            total += time_entry.tach_time
+        self.tach_hours = total
 
 class Overhaul(db.Model):
     __tablename__ = "overhauls_table"
@@ -91,9 +102,15 @@ class Overhaul(db.Model):
     engine: Mapped[Engine] = relationship("Engine", back_populates="overhauls")
     engine_id: Mapped[int] = mapped_column(Integer, ForeignKey("engines_table.id"))
     created: Mapped[datetime.datetime] = mapped_column(DateTime)
+    initial_tach_hours: Mapped[float] = mapped_column(Float, nullable=True)
     tach_hours: Mapped[float] = mapped_column(Float)
     time_entries: Mapped[List["TimeEntry"]] = relationship(back_populates="overhaul")
 
+    def updateTachHours(self):
+        total = 0 if self.initial_tach_hours is None else self.initial_tach_hours
+        for time_entry in self.time_entries:
+            total += time_entry.tach_time
+        self.tach_hours = total
 
 class TimeEntry(db.Model):
     __tablename__ = "time_table"

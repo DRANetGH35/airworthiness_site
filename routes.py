@@ -64,8 +64,11 @@ def logout():
 @app.route('/plane_data/<plane_id>')
 def plane_data(plane_id):
     plane = db.session.execute(select(Plane).where(Plane.id == plane_id)).scalar()
+    plane.updateTachHours()
     engine = plane.get_latest_engine()
+    engine.updateTachHours()
     overhaul = engine.get_latest_overhaul()
+    overhaul.updateTachHours()
     print(overhaul.id)
     maintenance_table = db.session.execute(select(MaintenanceEntry).where(MaintenanceEntry.plane_id == plane_id)).scalars().all()
     time_table = db.session.execute(select(TimeEntry).where(TimeEntry.overhaul_id == overhaul.id)).scalars().all()[-5::1]
@@ -82,9 +85,11 @@ def add_plane():
         new_plane = Plane(name=plane_name,
                           user=current_user,
                           user_id=current_user.id,
+                          initial_tach_hours=request.form.get('aircraft-hours'),
                           tach_hours=request.form.get('aircraft-hours'))
         db.session.add(new_plane)
         new_engine = Engine(plane=new_plane,
+                            initial_tach_hours = request.form.get('engine-hours'),
                             tach_hours = request.form.get('engine-hours'),
                             plane_id=new_plane.id,
                             created=datetime.datetime.now())
@@ -92,6 +97,7 @@ def add_plane():
         new_overhaul = Overhaul(engine=new_engine,
                                 engine_id=new_engine.id,
                                 created=datetime.datetime.now(),
+                                initial_tach_hours=request.form.get('overhaul-hours'),
                                 tach_hours=request.form.get('overhaul-hours'))
         db.session.add(new_overhaul)
         db.session.commit()
@@ -146,10 +152,6 @@ def add_time_entry():
         overhaul_id=most_current_overhaul.id
     )
     db.session.add(new_time_entry)
-    plane.tach_hours += tach_time_input
-    current_user.hobbs_time += tach_time_input * 1.2
-    most_current_engine.tach_hours += tach_time_input
-    most_current_overhaul.tach_hours += tach_time_input
     db.session.commit()
     return redirect(f'/plane_data/{plane_id}')
 

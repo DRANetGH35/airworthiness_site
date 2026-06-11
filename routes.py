@@ -69,7 +69,7 @@ def plane_data(plane_id):
     engine.updateTachHours()
     overhaul = engine.get_latest_overhaul()
     overhaul.updateTachHours()
-    print(overhaul.id)
+    current_user.updateHobbsTime()
     maintenance_table = db.session.execute(select(MaintenanceEntry).where(MaintenanceEntry.plane_id == plane_id)).scalars().all()
     time_table = db.session.execute(select(TimeEntry).where(TimeEntry.overhaul_id == overhaul.id)).scalars().all()[-5::1]
     return render_template('plane_data_page.html', plane=plane, time_table=time_table, maintenance_table=maintenance_table, engine=engine)

@@ -19,6 +19,13 @@ class User(UserMixin, db.Model):
     planes: Mapped[List["Plane"]] = relationship(back_populates="user")
     hobbs_time: Mapped[float] = mapped_column(Float)
 
+    def updateHobbsTime(self):
+        total = 0
+        for plane in self.planes:
+            for time_entry in plane.timetable:
+                total += time_entry.tach_time
+        self.hobbs_time = total * 1.2
+
     @classmethod
     def exists(cls, username: str) -> bool:
         return cls.query.filter_by(name=username).first() is not None

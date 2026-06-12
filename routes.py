@@ -225,6 +225,5 @@ def verify():
 
 @app.route('/test')
 def test():
-    plane = db.session.execute(select(Plane)).scalars().first()
-    print(plane.engines[0])
+    print('test')
     return redirect(request.referrer)

@@ -12,10 +12,10 @@
 <h6>Pilot: {{current_user.name}}: {{current_user.hobbs_time}} (hobbs time)</h6>
 </div>
 <div style="display:flex; align-items:center; margin-top: 10px;">
-<h6 id="engine">Engine: {{engine.serial}}: {{ engine.tach_hours }} (tach hours)</h6><a href="/plane_data/{{plane.id}}/add_new_engine" class="btn btn-link">New engine</a>
+<h6 id="engine">Engine: {{engine.serial}}: {{ engine.tach_hours }} (tach hours)</h6><a onclick="if(confirm('Are you sure?')){}else{event.preventDefault()}" href="/plane_data/{{plane.id}}/add_new_engine" class="btn btn-link">New engine</a>
 </div>
 <div style="display:flex; align-items:center;">
-<h6>Since Major Overhaul: {{ engine.overhauls[-1].tach_hours }}</h6><a href="/plane_data/{{engine.id}}/overhaul" class="btn btn-link">overhaul</a>
+<h6>Since Major Overhaul: {{ engine.overhauls[-1].tach_hours }}</h6><a onclick="if(confirm('Are you sure?')){}else{event.preventDefault()}" href="/plane_data/{{engine.id}}/overhaul" class="btn btn-link">overhaul</a>
 </div>
 </div>
 <table style="width: 100vw;" class="table table-striped custom-table table-dark">
@@ -26,7 +26,7 @@
     </thead>
     {% for time_entry in time_table %}
     <tr>
-    <td>{{ time_entry.created.strftime("%y-%m-%d") }}</td><td>{{time_entry.tach_time}}</td><td>{{ "%.1f" | format(time_entry.tach_time * 1.2) }}</td><td><a class="btn btn-link">edit</a><a href="/deleteTimeEntry/{{time_entry.id}}" class="btn btn-link">delete</a></td>
+    <td>{{ time_entry.created.strftime("%y-%m-%d") }}</td><td>{{time_entry.tach_time}}</td><td>{{ "%.1f" | format(time_entry.tach_time * 1.2) }}</td><td><a class="btn btn-link">edit</a><a onclick="if(confirm('Are you sure?')){}else{event.preventDefault()}" href="/deleteTimeEntry/{{time_entry.id}}" class="btn btn-link">delete</a></td>
     </tr>
     {% endfor %}
     <tr>

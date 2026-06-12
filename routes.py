@@ -6,7 +6,7 @@ from models import User, Plane, TimeEntry, MaintenanceEntry, Engine, Overhaul
 from app import create_app
 from werkzeug.security import generate_password_hash, check_password_hash
 import random
-from sqlalchemy import select
+from sqlalchemy import select, delete
 import datetime
 
 app = create_app()
@@ -156,6 +156,13 @@ def add_time_entry():
     return redirect(f'/plane_data/{plane_id}')
 
 @login_required
+@app.route('/deleteTimeEntry/<id>')
+def deleteTimeEntry(id):
+    db.session.execute(delete(TimeEntry).where(TimeEntry.id == id))
+    db.session.commit()
+    return redirect(request.referrer)
+
+@login_required
 @app.route('/plane_data/<plane_id>/add_maintenance_item', methods=['GET', 'POST'])
 def add_maintenance_entry(plane_id):
     plane = db.session.execute(select(Plane).where(Plane.id == plane_id)).scalar()
@@ -218,6 +225,5 @@ def verify():
 
 @app.route('/test')
 def test():
-    plane = db.session.execute(select(Plane)).scalars().first()
-    print(plane.engines[0])
+    print('test')
     return redirect(request.referrer)

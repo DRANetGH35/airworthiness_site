@@ -26,7 +26,7 @@
     </thead>
     {% for time_entry in time_table %}
     <tr>
-    <td>{{ time_entry.created.strftime("%y-%m-%d") }}</td><td>{{time_entry.tach_time}}</td><td>{{ "%.1f" | format(time_entry.tach_time * 1.2) }}</td><td><a class="btn btn-link">edit</a><a class="btn btn-link">delete</a></td>
+    <td>{{ time_entry.created.strftime("%y-%m-%d") }}</td><td>{{time_entry.tach_time}}</td><td>{{ "%.1f" | format(time_entry.tach_time * 1.2) }}</td><td><a class="btn btn-link">edit</a><a href="/deleteTimeEntry/{{time_entry.id}}" class="btn btn-link">delete</a></td>
     </tr>
     {% endfor %}
     <tr>

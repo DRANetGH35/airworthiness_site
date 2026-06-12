@@ -62,10 +62,19 @@
 </div>
 </div>
 
+<div id="modal" class="modal-overlay">
+  <div class="modal-box">
+    <button id="closeBtn" class="modal-close">×</button>
+    <h3>Hello!</h3>
+    <p>This is a modal popup.</p>
+  </div>
+</div>
+
 </main>
-<a href="/test" class="btn btn-link">test</a>
+<a id="test-btn" class="btn btn-link">test</a>
 </body>
 <script src="{{ url_for('static', filename='plane_data.js') }}"></script>
+<script src="{{ url_for('static', filename='modal_popup.js') }}"></script>
 {% include 'footer.html' %}
 
 {% endblock %}

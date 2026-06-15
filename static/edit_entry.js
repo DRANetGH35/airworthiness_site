@@ -1,12 +1,11 @@
 const editBtns = document.querySelectorAll('#editBtn')
 
 
+document.querySelectorAll('#editBtn').forEach(btn => {
+    const id = btn.dataset.entryid;
+    btn.addEventListener('click', () => {showEditFields(id)})
+})
 
-for (i=0; i<editBtns.length; i++){
-    editBtn = editBtns[i]
-    id = editBtn.dataset.entryid
-    editBtn.addEventListener('click', () => {showEditFields(id)})
-}
 
 
 function showEditFields(time_entry_id){

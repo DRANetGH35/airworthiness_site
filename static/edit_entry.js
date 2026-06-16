@@ -48,11 +48,14 @@ function cancelEditField(id){
 
 function showEditFields(id){
     let id_selector = `time_entry_id_${id}`
+    let editField = document.getElementById(`edit_field_${id}`)
     let row = document.getElementById(id_selector)
     let tach_time = row.children[1].children[0]
     let tach_entry = row.children[1].children[1]
     let button_cell = row.children[3].children[0]
     let save_cell = row.children[3].children[1]
+
+    editField.value = tach_time.innerHTML
 
     console.log(button_cell.children)
     tach_time.classList.add('hidden')

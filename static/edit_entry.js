@@ -18,15 +18,16 @@ function saveEditField(id){
     let url = `/edit_time_entry/${id}`
     const editField = document.getElementById(`edit_field_${id}`)
     let data = new FormData();
-    data.append("value", editField.value)
+    let value = editField.value
+    data.append("value", value)
     fetch(url, {
         "method": "POST",
         "body": data
     })
     const tach_time_p = document.getElementById(`tach_time_${id}`)
     const hobbs_time_p = document.getElementById(`hobbs_time_${id}`)
-    tach_time_p.innerHTML = parseFloat(data['value'])
-    hobbs_time_p.innerHTML = parseFloat(data['value'] * 1.2)
+    tach_time_p.innerHTML = value
+    hobbs_time_p.innerHTML = +(value * 1.2).toFixed(2)
     cancelEditField(id)
 }
 

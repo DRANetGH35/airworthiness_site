@@ -1,12 +1,31 @@
 const editBtns = document.querySelectorAll('#editBtn')
-
+const cancelBtns = document.querySelectorAll('#cancelBtn')
 
 document.querySelectorAll('#editBtn').forEach(btn => {
     const id = btn.dataset.entryid;
     btn.addEventListener('click', () => {showEditFields(id)})
 })
 
+document.querySelectorAll('#cancelBtn').forEach(btn => {
+    const id = btn.dataset.entryid;
+    btn.addEventListener('click', () => {cancelEditField(id)})
+})
 
+
+function cancelEditField(id){
+    let id_selector = `time_entry_id_${id}`
+    let row = document.getElementById(id_selector)
+    let tach_time = row.children[1].children[0]
+    let tach_entry = row.children[1].children[1]
+    let button_cell = row.children[3].children[0]
+    let save_cell = row.children[3].children[1]
+
+    console.log(button_cell.children)
+    tach_time.classList.remove('hidden')
+    button_cell.classList.remove('hidden')
+    tach_entry.classList.add('hidden')
+    save_cell.classList.add('hidden')
+}
 
 function showEditFields(time_entry_id){
     let id_selector = `time_entry_id_${time_entry_id}`

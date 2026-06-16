@@ -1,6 +1,5 @@
 {% from "bootstrap5/form.html" import render_form %}
 {% extends "base.html" %} {% block content %}
-
 {% include 'navbar.html' %}
 
 <body>
@@ -9,7 +8,7 @@
 <div style="display:flex; flex-direction:column; align-items:center;">
 <h3 id="plane">{{plane.name}}  -  {{ plane.id }}: {{plane.tach_hours}} (tach hours)</h3>
 <div style="display:flex; align-items:center;">
-<h6>Pilot: {{current_user.name}}: {{current_user.hobbs_time}} (hobbs time)</h6>
+<h6>Pilot: {{current_user.name}}: {{current_user.hobbs_time | round(2)}} (hobbs time)</h6>
 </div>
 <div style="display:flex; align-items:center; margin-top: 10px;">
 <h6 id="engine">Engine: {{engine.serial}}: {{ engine.tach_hours }} (tach hours)</h6><a onclick="if(confirm('Are you sure?')){}else{event.preventDefault()}" href="/plane_data/{{plane.id}}/add_new_engine" class="btn btn-link">New engine</a>

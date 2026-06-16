@@ -1,5 +1,3 @@
-const editBtns = document.querySelectorAll('#editBtn')
-const cancelBtns = document.querySelectorAll('#cancelBtn')
 
 document.querySelectorAll('#editBtn').forEach(btn => {
     const id = btn.dataset.entryid;
@@ -11,6 +9,26 @@ document.querySelectorAll('#cancelBtn').forEach(btn => {
     btn.addEventListener('click', () => {cancelEditField(id)})
 })
 
+document.querySelectorAll('#saveBtn').forEach(btn => {
+    const id = btn.dataset.entryid;
+    btn.addEventListener('click', () => {saveEditField(id)})
+})
+
+function saveEditField(id){
+    let url = `/edit_time_entry/${id}`
+    const editField = document.getElementById(`edit_field_${id}`)
+    let data = new FormData();
+    data.append("value", editField.value)
+    fetch(url, {
+        "method": "POST",
+        "body": data
+    })
+    const tach_time_p = document.getElementById(`tach_time_${id}`)
+    const hobbs_time_p = document.getElementById(`hobbs_time_${id}`)
+    tach_time_p.innerHTML = parseFloat(data['value'])
+    hobbs_time_p.innerHTML = parseFloat(data['value'] * 1.2)
+    cancelEditField(id)
+}
 
 function cancelEditField(id){
     let id_selector = `time_entry_id_${id}`

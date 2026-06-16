@@ -163,6 +163,15 @@ def deleteTimeEntry(id):
     return redirect(request.referrer)
 
 @login_required
+@app.route('/edit_time_entry/<id>', methods=['POST'])
+def editTimeEntry(id):
+    entry = db.session.execute(select(TimeEntry).where(TimeEntry.id == id)).scalar()
+    entry.tach_time = request.form.get('value')
+    db.session.commit()
+    return redirect(request.referrer)
+
+
+@login_required
 @app.route('/plane_data/<plane_id>/add_maintenance_item', methods=['GET', 'POST'])
 def add_maintenance_entry(plane_id):
     plane = db.session.execute(select(Plane).where(Plane.id == plane_id)).scalar()

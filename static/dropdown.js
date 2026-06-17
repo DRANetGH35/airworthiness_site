@@ -23,6 +23,6 @@ function changeEvent(id, selected_value){
         "body": data
     })
     if (selected_value === "delete"){
-        window.location.reload
+        window.location.reload()
     }
 }

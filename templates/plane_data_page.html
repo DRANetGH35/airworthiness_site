@@ -54,7 +54,18 @@
     {% else %}
     {% set due_date_formatted = '---' %}
     {% endif %}
-        <td>{{ maintenance_item.description }}</td><td>{{ due_date_formatted }}</td><td>{{ due_tach_formatted }}</td><td>{{ maintenance_item.status }}</td>
+        <td>{{ maintenance_item.description }}</td><td>{{ due_date_formatted }}</td><td>{{ due_tach_formatted }}</td>
+        <td>
+            <div data-id="{{maintenance_item.id}}" id="maintenance_item_dropdown" class="form-floating">
+                <select style="height: 10px;" class="form-select" id="floatingSelect">
+                    <option value="incomplete" selected>Incomplete</option>
+                    <option value="complete">Complete</option>
+                    <option value="delete">Delete</option>
+                </select>
+                    <label for="maintenance_item_dropdown">Status</label>
+
+            </div>
+        </td>
     </tr>
 {% endfor %}
 </table>
@@ -75,6 +86,7 @@
 <script src="{{ url_for('static', filename='plane_data.js') }}"></script>
 <script src="{{ url_for('static', filename='modal_popup.js') }}"></script>
 <script src="{{ url_for('static', filename='edit_entry.js') }}"></script>
+<script src="{{ url_for('static', filename='dropdown.js') }}"></script>
 {% include 'footer.html' %}
 
 {% endblock %}

@@ -232,6 +232,24 @@ def verify():
         return render_template('index.html', current_user=current_user, error=error)
     return redirect(url_for('index'))
 
+@app.route('/fetch_maintenance_item/<id>')
+def fetchMaintenanceItem(id):
+    maintenance_item = db.session.execute(select(MaintenanceEntry).where(MaintenanceEntry.id == id)).scalar()
+    return str(maintenance_item.status)
+
+@app.route('/change_maintenance_status', methods=['POST'])
+def changeMaintenanceStatus():
+    id = request.form.get('id')
+    selected_value = request.form.get('selected_value')
+    if selected_value == "delete":
+        db.session.execute(delete(MaintenanceEntry).where(MaintenanceEntry.id == id))
+        db.session.commit()
+    else:
+        maintenance_item = db.session.execute(select(MaintenanceEntry).where(MaintenanceEntry.id == id)).scalar()
+        maintenance_item.status = selected_value
+        db.session.commit()
+    return redirect(request.referrer)
+
 @app.route('/test')
 def test():
     print('test')

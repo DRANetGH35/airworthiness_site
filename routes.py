@@ -235,7 +235,7 @@ def verify():
 @app.route('/fetch_maintenance_item/<id>')
 def fetchMaintenanceItem(id):
     maintenance_item = db.session.execute(select(MaintenanceEntry).where(MaintenanceEntry.id == id)).scalar()
-    return str(maintenance_item.status)
+    return jsonify({"status": maintenance_item.status})
 
 @app.route('/change_maintenance_status', methods=['POST'])
 def changeMaintenanceStatus():

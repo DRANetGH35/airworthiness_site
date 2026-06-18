@@ -3,9 +3,13 @@ const statusDropdowns = document.querySelectorAll('#maintenance_item_dropdown')
 statusDropdowns.forEach(dropdown => {
     const id = dropdown.dataset.id
     url = `/fetch_maintenance_item/${id}`
-    saved_value = fetch(url)
-    console.log(saved_value)
-    dropdown.value = saved_value
+    fetch(url).then(response => response.json()).then(data => {
+        task_status = data['status']
+        console.log(task_status)
+        document.addEventListener('DOMContentLoaded', () => {
+            dropdown.value = task_status
+        })
+    })
 
     dropdown.addEventListener('change', (event) => {
         const selected_value = event.target.value
@@ -22,7 +26,5 @@ function changeEvent(id, selected_value){
         "method": "POST",
         "body": data
     })
-    if (selected_value === "delete"){
-        window.location.reload()
-    }
+    window.location.reload()
 }

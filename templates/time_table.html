@@ -17,7 +17,7 @@
     </thead>
     {% for engine in engine_table %}
     <tr>
-        <td>{{engine.created.strftime("%y-%m-%d")}}</td><td>{{engine}}</td><td>{{engine.overhauls | length}}</td><td>{{engine.time_entries | length }}</td>
+        <td>{{engine.created.strftime("%y-%m-%d")}}</td><td><a href="/engine_{{engine.id}}" class="btn btn-link">{{engine}}</a></td><td>{{engine.overhauls | length}}</td><td>{{engine.time_entries | length }}</td>
     </tr>
     {% endfor %}
 </table>

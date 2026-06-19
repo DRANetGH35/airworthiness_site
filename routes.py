@@ -83,6 +83,12 @@ def time_table(plane_id):
     return render_template('time_table.html', time_table=time_table, plane=plane, engine_table=engine_table)
 
 @login_required
+@app.route('/engine_<engine_id>')
+def view_engine(engine_id):
+    engine = db.session.execute(select(Engine).where(Engine.id == engine_id)).scalar()
+    return render_template('view_engine.html', engine=engine)
+
+@login_required
 @app.route('/add_plane', methods=['GET', 'POST'])
 def add_plane():
     if request.method == "POST":

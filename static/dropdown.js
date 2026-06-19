@@ -8,7 +8,6 @@ statusDropdowns.forEach(dropdownDiv => {
     //set select to saved value
     fetch(url).then(response => response.json()).then(data => {
         task_status = data['status']
-        console.log(task_status)
         dropdown.value = task_status
     })
 

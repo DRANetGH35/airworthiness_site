@@ -1,0 +1,26 @@
+{% from "bootstrap5/form.html" import render_form %}
+{% extends "base.html" %} {% block content %}
+{% include 'navbar.html' %}
+<div class="custom-body">
+
+<h3>Time Table</h3>
+<div style="display:flex; flex-direction:row;">
+<table style="width: 100vw;" class="table table-striped custom-table table-dark">
+    <thead>
+    <tr>
+        <th>Time</th><th>Tach</th><th>engine id</th><th>overhaul id</th>
+    </tr>
+    </thead>
+    {% for time_entry in time_table %}
+    <tr id="time_entry_id_{{ time_entry.id }}">
+    <td>{{ time_entry.created.strftime("%y-%m-%d") }}</td><td><p id="tach_time_{{time_entry.id}}">{{time_entry.tach_time}}</p><input id="edit_field_{{time_entry.id}}" type="text" class="hidden custom-table-input"></td><td>{{time_entry.engine_id}}</td><td>{{time_entry.overhaul_id}}</td>
+    </tr>
+    {% endfor %}
+</table>
+</div>
+<p id='error' class="error">{{error}}</p>
+
+</div>
+<script src="{{ url_for('static', filename='add_maintenance_item.js') }}"></script>
+{% include 'footer.html' %}
+{% endblock %}

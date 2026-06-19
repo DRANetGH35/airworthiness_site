@@ -3,8 +3,25 @@
 {% include 'navbar.html' %}
 <div class="custom-body">
 
+
+<div style="display:flex; flex-direction:column; align-items:center;">
+    <div style="display:flex; flex-direction:column; align-items:center;">
+    <h3 id="plane">{{plane.name}}  -  {{ plane.id }}: {{plane.tach_hours}} (tach hours)</h3>
+    <div style="display:flex; align-items:center;">
+    <h6>Pilot: {{current_user.name}}: {{current_user.hobbs_time | round(2)}} (hobbs time)</h6>
+    </div>
+    <h3>Engines</h3>
+<table style="width: 100vw;" class="table table-striped custom-table table-dark">
+    <thead>
+        <th>Created</th><th>Engine</th><th>Num overhauls</th><th>Num Entries</th>
+    </thead>
+    {% for engine in engine_table %}
+    <tr>
+        <td>{{engine.created.strftime("%y-%m-%d")}}</td><td>{{engine}}</td><td>{{engine.overhauls | length}}</td><td>{{engine.time_entries | length }}</td>
+    </tr>
+    {% endfor %}
+</table>
 <h3>Time Table</h3>
-<div style="display:flex; flex-direction:row;">
 <table style="width: 100vw;" class="table table-striped custom-table table-dark">
     <thead>
     <tr>

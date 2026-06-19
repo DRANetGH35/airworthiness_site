@@ -78,8 +78,9 @@ def plane_data(plane_id):
 @app.route('/time_table/plane_<plane_id>')
 def time_table(plane_id):
     plane = db.session.execute(select(Plane).where(Plane.id == plane_id)).scalar()
+    engine_table = db.session.execute(select(Engine).where(Engine.plane_id == plane_id)).scalars().all()
     time_table = db.session.execute(select(TimeEntry).where(TimeEntry.plane_id == plane.id)).scalars().all()
-    return render_template('time_table.html', time_table=time_table)
+    return render_template('time_table.html', time_table=time_table, plane=plane, engine_table=engine_table)
 
 @login_required
 @app.route('/add_plane', methods=['GET', 'POST'])

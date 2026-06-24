@@ -11,6 +11,20 @@ import datetime
 
 app = create_app()
 
+def update_Totals(user, plane):
+    user.updateHobbsTime()
+    plane.updateTachHours()
+    engine = plane.get_latest_engine()
+    engine.updateTachHours()
+    overhaul = engine.get_latest_overhaul()
+    overhaul.updateTachHours()
+
+def getRecentEntries(plane):
+    engine = plane.get_latest_engine()
+    overhaul = engine.get_latest_overhaul()
+    result = db.session.execute(select(TimeEntry).where(TimeEntry.overhaul_id == overhaul.id)).scalars().all()[-5::1]
+    return result
+
 @app.route('/')
 def index():
     planes = []
@@ -64,29 +78,28 @@ def logout():
 @app.route('/plane_data/<plane_id>')
 def plane_data(plane_id):
     plane = db.session.execute(select(Plane).where(Plane.id == plane_id)).scalar()
-    plane.updateTachHours()
-    engine = plane.get_latest_engine()
-    engine.updateTachHours()
-    overhaul = engine.get_latest_overhaul()
-    overhaul.updateTachHours()
-    current_user.updateHobbsTime()
+    update_Totals(current_user, plane)
     maintenance_table = db.session.execute(select(MaintenanceEntry).where(MaintenanceEntry.plane_id == plane_id)).scalars().all()
-    time_table = db.session.execute(select(TimeEntry).where(TimeEntry.overhaul_id == overhaul.id)).scalars().all()[-5::1]
+    time_table = getRecentEntries(plane)
+    engine = plane.get_latest_engine()
     return render_template('plane_data_page.html', plane=plane, time_table=time_table, maintenance_table=maintenance_table, engine=engine)
 
 @login_required
 @app.route('/time_table/plane_<plane_id>')
 def time_table(plane_id):
     plane = db.session.execute(select(Plane).where(Plane.id == plane_id)).scalar()
+    update_Totals(current_user, plane)
     engine_table = db.session.execute(select(Engine).where(Engine.plane_id == plane_id)).scalars().all()
     time_table = db.session.execute(select(TimeEntry).where(TimeEntry.plane_id == plane.id)).scalars().all()
-    return render_template('time_table.html', time_table=time_table, plane=plane, engine_table=engine_table)
+    return render_template('time_table.html', time_table=time_table, plane=plane, engine_table=engine_table, current_user=current_user)
 
 @login_required
 @app.route('/engine_<engine_id>')
 def view_engine(engine_id):
     engine = db.session.execute(select(Engine).where(Engine.id == engine_id)).scalar()
-    return render_template('view_engine.html', engine=engine)
+    plane = engine.plane
+    update_Totals(current_user, plane)
+    return render_template('view_engine.html', engine=engine, current_user=current_user)
 
 @login_required
 @app.route('/add_plane', methods=['GET', 'POST'])

@@ -14,7 +14,7 @@
 <h6 id="engine">Engine: {{engine.serial}}: {{ engine.tach_hours }} (tach hours)</h6><a onclick="if(confirm('Are you sure?')){}else{event.preventDefault()}" href="/plane_data/{{plane.id}}/add_new_engine" class="btn btn-link">New engine</a>
 </div>
 <div style="display:flex; align-items:center;">
-<h6>Since Major Overhaul: {{ engine.overhauls[-1].tach_hours }}</h6><a onclick="if(confirm('Are you sure?')){}else{event.preventDefault()}" href="/plane_data/{{engine.id}}/overhaul" class="btn btn-link">overhaul</a>
+<h6>Since Major Overhaul: {{ engine.get_latest_overhaul().tach_hours }}</h6><a onclick="if(confirm('Are you sure?')){}else{event.preventDefault()}" href="/plane_data/{{engine.id}}/overhaul" class="btn btn-link">overhaul</a>
 </div>
 </div>
 <table style="width: 100vw;" class="table table-striped custom-table table-dark">

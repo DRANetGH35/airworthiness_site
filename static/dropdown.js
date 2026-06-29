@@ -21,7 +21,7 @@ statusDropdowns.forEach(dropdownDiv => {
 // change value in backend when select changed
 function changeEvent(id, selected_value, plane_id){
     if (selected_value === "edit"){
-        url = `/edit_maintenance_item/${plane_id}/${id}`;
+        url = `/plane_data/${plane_id}/maintenance_item/${id}`;
         window.location.href = url;
     }
     else{

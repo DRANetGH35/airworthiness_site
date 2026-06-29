@@ -199,8 +199,8 @@ def editTimeEntry(id):
 
 
 @login_required
-@app.route('/plane_data/<plane_id>/add_maintenance_item', methods=['GET', 'POST'])
-def add_maintenance_entry(plane_id):
+@app.route('/plane_data/<plane_id>/maintenance_item/<maintenance_item_id>', methods=['GET', 'POST'])
+def add_maintenance_entry(plane_id, maintenance_item_id):
     plane = db.session.execute(select(Plane).where(Plane.id == plane_id)).scalar()
     if request.method == "POST":
         tach_last_completed = None

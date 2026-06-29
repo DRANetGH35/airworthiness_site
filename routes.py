@@ -230,21 +230,33 @@ def add_maintenance_entry(plane_id, maintenance_item_id):
             due_tach = request.form.get('tach_hours_due') if request.form.get('tach_hours_due') != '' else None
             if request.form.get('date_due') != '':
                 date_due = datetime.datetime.strptime(request.form.get('date_due'), '%Y-%m-%d')
+        if maintenance_item_id == "new":
+            new_maintenance_item = MaintenanceEntry(description=description,
+                                                    maintenance_type=maintenance_type,
+                                                    interval=interval,
+                                                    tach_last_completed=tach_last_completed,
+                                                    date_last_completed=date_last_completed,
+                                                    interval_hours=interval_hours,
+                                                    interval_months=interval_months,
+                                                    due_date=date_due,
+                                                    due_tach=due_tach,
+                                                    status='Incomplete',
+                                                    plane=plane,
+                                                    plane_id=plane.id)
 
-        new_maintenance_item = MaintenanceEntry(description=description,
-                                                maintenance_type=maintenance_type,
-                                                interval=interval,
-                                                tach_last_completed=tach_last_completed,
-                                                date_last_completed=date_last_completed,
-                                                interval_hours=interval_hours,
-                                                interval_months=interval_months,
-                                                due_date=date_due,
-                                                due_tach=due_tach,
-                                                status='Incomplete',
-                                                plane=plane,
-                                                plane_id=plane.id)
-
-        db.session.add(new_maintenance_item)
+            db.session.add(new_maintenance_item)
+        else:
+            maintenance_item = db.session.execute(select(MaintenanceEntry).where(MaintenanceEntry.id == maintenance_item_id)).scalar()
+            maintenance_item.maintenance_type=maintenance_type
+            maintenance_item.interval=interval
+            maintenance_item.tach_last_completed=tach_last_completed
+            maintenance_item.date_last_completed=date_last_completed
+            maintenance_item.interval_hours=interval_hours
+            maintenance_item.interval_months=interval_months
+            maintenance_item.due_date=date_due
+            maintenance_item.due_tach=due_tach
+            maintenance_item.plane=plane
+            maintenance_item.plane_id=plane.id
         db.session.commit()
         return redirect(f'/plane_data/{plane_id}')
     return render_template('add_maintenance_item.html', plane=plane)

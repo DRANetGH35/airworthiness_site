@@ -264,7 +264,7 @@ def fetchMaintenanceItem(id):
     maintenance_item = db.session.execute(select(MaintenanceEntry).where(MaintenanceEntry.id == id)).scalar()
     return jsonify({"status": maintenance_item.status})
 
-@app.route('/change_maintenance_status', methods=['POST'])
+@app.route('/change_maintenance_status', methods=['GET', 'POST'])
 def changeMaintenanceStatus():
     id = request.form.get('id')
     selected_value = request.form.get('selected_value')
@@ -276,6 +276,11 @@ def changeMaintenanceStatus():
         maintenance_item.status = selected_value
         db.session.commit()
     return redirect(request.referrer)
+
+@app.route('/edit_maintenance_item/<plane_id>/<maintenance_item_id>', methods=['GET', 'POST'])
+def editMaintenanceItem(plane_id, maintenance_item_id):
+    plane = db.session.execute(select(Plane).where(Plane.id == plane_id)).scalar()
+    return render_template('edit_maintenance_item.html', plane=plane)
 
 @app.route('/test')
 def test():

@@ -3,6 +3,7 @@ const statusDropdowns = document.querySelectorAll('#maintenance_item_dropdown')
 statusDropdowns.forEach(dropdownDiv => {
     dropdown = dropdownDiv.children[0]
     const id = dropdown.dataset.id
+    const plane_id = dropdown.dataset.planeId
     url = `/fetch_maintenance_item/${id}`
 
     //set select to saved value
@@ -14,11 +15,16 @@ statusDropdowns.forEach(dropdownDiv => {
     //event listener for change event
     dropdown.addEventListener('change', (event) => {
         const selected_value = event.target.value
-        changeEvent(id, selected_value)
+        changeEvent(id, selected_value, plane_id)
     })
 })
 // change value in backend when select changed
-function changeEvent(id, selected_value){
+function changeEvent(id, selected_value, plane_id){
+    if (selected_value === "edit"){
+        url = `/edit_maintenance_item/${plane_id}/${id}`;
+        window.location.href = url;
+    }
+    else{
     url = `/change_maintenance_status`;
     let data= new FormData;
     data.append('id', id)
@@ -28,4 +34,5 @@ function changeEvent(id, selected_value){
         "body": data
     })
     window.location.reload()
+    }
 }

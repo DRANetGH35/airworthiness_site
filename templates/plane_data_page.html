@@ -58,9 +58,10 @@
         <td>{{ maintenance_item.description }}</td><td>{{ due_date_formatted }}</td><td>{{ due_tach_formatted }}</td>
         <td>
             <div id="maintenance_item_dropdown" class="form-floating">
-                <select data-id="{{maintenance_item.id}}" style="height: 10px;" class="form-select" id="floatingSelect">
+                <select data-plane-id="{{plane.id}}" data-id="{{maintenance_item.id}}" style="height: 10px;" class="form-select" id="floatingSelect">
                     <option value="incomplete">incomplete</option>
                     <option value="complete">complete</option>
+                    <option value="edit">edit</option>
                     <option value="delete">delete</option>
                 </select>
                     <label for="maintenance_item_dropdown">Status</label>

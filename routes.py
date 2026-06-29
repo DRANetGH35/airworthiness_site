@@ -166,17 +166,17 @@ def add_time_entry():
     tach_time_input = float(request.form.get('tach_time'))
     plane_id = request.referrer.split('/')[-1]
     plane = db.session.execute(select(Plane).where(Plane.id == plane_id)).scalar()
-    most_current_engine = plane.engines[-1]
-    most_current_overhaul = most_current_engine.overhauls[-1]
+    latest_engine = plane.get_latest_engine()
+    latest_overhaul = latest_engine.get_latest_overhaul()
     new_time_entry = TimeEntry(
         created = datetime.datetime.now(),
         tach_time = tach_time_input,
         plane=plane,
         plane_id=plane_id,
-        engine=most_current_engine,
-        engine_id=most_current_engine.id,
-        overhaul=most_current_overhaul,
-        overhaul_id=most_current_overhaul.id
+        engine=latest_engine,
+        engine_id=latest_engine.id,
+        overhaul=latest_overhaul,
+        overhaul_id=latest_overhaul.id
     )
     db.session.add(new_time_entry)
     db.session.commit()

@@ -5,7 +5,7 @@
 
 <h3>Add new maintenance item</h3>
 <div style="display:flex; flex-direction:row;">
-<form id="form" action="/plane_data/{{plane.id}}/add_maintenance_item" method="POST" style="display:flex; flex-direction: column; align-content:center;">
+<form id="form" action="/plane_data/{{plane.id}}/maintenance_item/{{maintenance_item_id}}" method="POST" style="display:flex; flex-direction: column; align-content:center;">
 
     <label>Description
         <input class="form-control" type="text" name="description" id="description">

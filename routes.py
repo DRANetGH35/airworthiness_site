@@ -259,7 +259,7 @@ def add_maintenance_entry(plane_id, maintenance_item_id):
             maintenance_item.plane_id=plane.id
         db.session.commit()
         return redirect(f'/plane_data/{plane_id}')
-    return render_template('add_maintenance_item.html', plane=plane)
+    return render_template('add_maintenance_item.html', plane=plane, maintenance_item_id=maintenance_item_id)
 
 @login_required
 @app.route('/verify', methods=['POST'])
@@ -289,10 +289,6 @@ def changeMaintenanceStatus():
         db.session.commit()
     return redirect(request.referrer)
 
-@app.route('/edit_maintenance_item/<plane_id>/<maintenance_item_id>', methods=['GET', 'POST'])
-def editMaintenanceItem(plane_id, maintenance_item_id):
-    plane = db.session.execute(select(Plane).where(Plane.id == plane_id)).scalar()
-    return render_template('edit_maintenance_item.html', plane=plane)
 
 @app.route('/test')
 def test():

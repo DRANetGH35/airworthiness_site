@@ -63,7 +63,7 @@ class Plane(db.Model):
             select(Engine)
             .join(Plane.engines)
             .where(Plane.id == cls.id)
-            .order_by(Engine.id.asc())
+            .order_by(Engine.id.desc())
             .limit(1)
         )
         return db.session.scalars(stmt).first()

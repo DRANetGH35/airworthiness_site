@@ -147,14 +147,16 @@ def new_engine(plane_id):
     if request.method == "POST":
         plane = db.session.execute(select(Plane).where(Plane.id == plane_id)).scalar()
         new_engine = Engine(plane=plane,
-                            tach_hours=request.form.get('engine-hours'),
+                            initial_tach_hours=request.form.get('engine-hours'),
+                            tach_hours=0,
                             plane_id=plane.id,
                             created=datetime.datetime.now())
         db.session.add(new_engine)
         new_overhaul = Overhaul(engine=new_engine,
                                 engine_id=new_engine.id,
                                 created=datetime.datetime.now(),
-                                tach_hours=request.form.get('overhaul-hours'))
+                                tach_hours=0,
+                                initial_tach_hours=request.form.get('overhaul-hours'))
         db.session.add(new_overhaul)
         db.session.commit()
         return redirect(f'/plane_data/{plane_id}')

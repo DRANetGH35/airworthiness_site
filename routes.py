@@ -241,7 +241,7 @@ def add_maintenance_entry(plane_id, maintenance_item_id):
                                                     interval_months=interval_months,
                                                     due_date=date_due,
                                                     due_tach=due_tach,
-                                                    status='Incomplete',
+                                                    status='incomplete',
                                                     plane=plane,
                                                     plane_id=plane.id)
 

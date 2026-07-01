@@ -2,7 +2,7 @@
 {% extends "base.html" %} {% block content %}
 {% include 'navbar.html' %}
 <div class="custom-body">
-
+{{maintenance_item}}
 <h3>Add new maintenance item</h3>
 <div style="display:flex; flex-direction:row;">
 <form id="form" action="/plane_data/{{plane.id}}/maintenance_item/{{maintenance_item_id}}" method="POST" style="display:flex; flex-direction: column; align-content:center;">
@@ -27,7 +27,7 @@
     </div>
     <div id="single_div" class="show" style="flex-direction:column;">
         <label>Due next (tach hours)
-            <input class="form-control" type="number" step="any" name="tach_hours_due">
+            <input class="form-control" type="number" step="any" name="tach_hours_due" id="tach_due">
         </label>
         <label>Due next (date)
             <input class="form-control" type="date" name="date_due" id="date_due">
@@ -65,5 +65,6 @@
 
 </div>
 <script src="{{ url_for('static', filename='add_maintenance_item.js') }}"></script>
+<script src="{{ url_for('static', filename='edit_maintenance_item.js') }}"></script>
 {% include 'footer.html' %}
 {% endblock %}

@@ -202,6 +202,7 @@ def editTimeEntry(id):
 @app.route('/plane_data/<plane_id>/maintenance_item/<maintenance_item_id>', methods=['GET', 'POST'])
 def add_maintenance_entry(plane_id, maintenance_item_id):
     plane = db.session.execute(select(Plane).where(Plane.id == plane_id)).scalar()
+    maintenance_item = "new" if maintenance_item_id == "new" else db.session.execute(select(MaintenanceEntry).where(MaintenanceEntry.id == maintenance_item_id)).scalar()
     if request.method == "POST":
         tach_last_completed = None
         date_last_completed = None
@@ -259,7 +260,7 @@ def add_maintenance_entry(plane_id, maintenance_item_id):
             maintenance_item.plane_id=plane.id
         db.session.commit()
         return redirect(f'/plane_data/{plane_id}')
-    return render_template('add_maintenance_item.html', plane=plane, maintenance_item_id=maintenance_item_id)
+    return render_template('add_maintenance_item.html', plane=plane, maintenance_item_id=maintenance_item_id, maintenance_item=maintenance_item)
 
 @login_required
 @app.route('/verify', methods=['POST'])
@@ -274,7 +275,16 @@ def verify():
 @app.route('/fetch_maintenance_item/<id>')
 def fetchMaintenanceItem(id):
     maintenance_item = db.session.execute(select(MaintenanceEntry).where(MaintenanceEntry.id == id)).scalar()
-    return jsonify({"status": maintenance_item.status})
+    return jsonify({"status": maintenance_item.status,
+                    "description": maintenance_item.description,
+                    "maintenance_type": maintenance_item.maintenance_type,
+                    "interval": maintenance_item.interval,
+                    "due_date": maintenance_item.due_date.strftime('%Y-%m-%d') if maintenance_item.due_date is not None else None,
+                    "due_tach": maintenance_item.due_tach,
+                    "tach_last_completed": maintenance_item.tach_last_completed,
+                    "date_last_completed": maintenance_item.date_last_completed.strftime('%Y-%m-%d') if maintenance_item.date_last_completed is not None else None,
+                    "interval_hours": maintenance_item.interval_hours,
+                    "interval_months": maintenance_item.interval_months})
 
 @app.route('/change_maintenance_status', methods=['GET', 'POST'])
 def changeMaintenanceStatus():

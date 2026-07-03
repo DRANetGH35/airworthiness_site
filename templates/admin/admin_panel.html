@@ -5,11 +5,17 @@
 
 <body>
 <main>
-<div class="custom-body">
-<div class="custom-main">
-<table class="custom-table"></table>
-</div>
-</div>
+    <div class="container" style="display: flex; justify-content: center; align-items: center;">
+        <h1>Admin Panel</h1>
+    </div>
+<table style="width: 100vw;" class="table table-striped custom-table table-dark">
+    <thead>
+    <tr><th>users</th><th>num planes</th><th>num entries</th></tr>
+    </thead>
+    {% for user in users %}
+    <tr><td>{{user.name}}</td><td>{{user.planes | length}}</td><td>{{ user.total_entries }}</td></tr>
+    {% endfor %}
+</table>
 </main>
 </body>
 

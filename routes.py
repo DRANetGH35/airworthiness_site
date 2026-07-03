@@ -79,7 +79,12 @@ def logout():
 @app.route('/admin')
 @admin_required
 def admin_panel():
-    return render_template('admin/admin_panel.html')
+    users = db.session.execute(select(User)).scalars().all()
+    for user in users:
+        user.total_entries = 0
+        for plane in user.planes:
+            user.total_entries += len(plane.timetable)
+    return render_template('admin/admin_panel.html', users=users)
 
 @app.route('/plane_data/<plane_id>')
 def plane_data(plane_id):

@@ -8,6 +8,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import random
 from sqlalchemy import select, delete
 import datetime
+from decorators import admin_required
 
 app = create_app()
 
@@ -74,6 +75,11 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('index'))
+
+@app.route('/admin')
+@admin_required
+def admin_panel():
+    return render_template('admin/admin_panel.html')
 
 @app.route('/plane_data/<plane_id>')
 def plane_data(plane_id):
@@ -301,6 +307,9 @@ def changeMaintenanceStatus():
         db.session.commit()
     return redirect(request.referrer)
 
+@app.errorhandler(403)
+def forbidden(e):
+    return render_template('errors/403.html')
 
 @app.route('/test')
 def test():

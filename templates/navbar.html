@@ -7,18 +7,11 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
-
+                {% if current_user.is_admin %}
                 <li class="nav-item">
-                     <a class="nav-link active navbar-btn" aria-current="page" href="/logout">Button1</a>
+                     <a class="nav-link active navbar-btn" aria-current="page" href="/admin">Admin</a>
                 </li>
-
-                <li class="nav-item">
-                    <a class="nav-link active navbar-btn" aria-current="page" href="/statistics">Button2</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active navbar-btn" aria-current="page" href="/create_new_user">Button3</a>
-                </li>
-
+                {% endif %}
             </ul>
 
              <ul class="navbar-nav ms-auto">

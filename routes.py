@@ -41,7 +41,7 @@ def register():
         password = str(request.form.get('password'))
         verification_code = f"{random.randint(0, 99999):05}"
         if User.exists(username):
-            return render_template('register.html', error="Username already exists")
+            return render_template('account/register.html', error="Username already exists")
         new_user = User(name=username,
                         email=email,
                         password=generate_password_hash(password, method='pbkdf2:sha256', salt_length=8),
@@ -55,7 +55,7 @@ def register():
         send_verification_email(verification_code, email)
         login_user(new_user)
         return redirect(url_for('index'))
-    return render_template('register.html', error="", current_user=current_user)
+    return render_template('account/register.html', error="", current_user=current_user)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -65,11 +65,27 @@ def login():
         password = str(request.form.get('password'))
         user_in_question = User.get_by_username(username)
         if user_in_question is None or not check_password_hash(user_in_question.password, password):
-            return render_template('login.html', error="Incorrect username or password")
+            return render_template('account/login.html', error="Incorrect username or password")
         else:
             login_user(user_in_question, remember=True)
             return redirect(url_for('index'))
-    return render_template('login.html', error="", current_user=current_user)
+    return render_template('account/login.html', error="", current_user=current_user)
+
+@app.route('/forgot_password', methods=["GET", "POST"])
+def forgot_password():
+    if request.method == "GET":
+        if current_user.is_authenticated:
+            return redirect(url_for('index'))
+        return render_template('account/forgot_password.html')
+    email = request.form.get('email')
+    return redirect(url_for('reset_password'))
+
+@app.route('/reset_password', methods=['GET', 'POST'])
+def reset_password():
+    if request.method == "GET":
+        return render_template('account/reset_password.html')
+    else:
+        return render_template(url_for('index'))
 
 @app.route('/logout')
 def logout():

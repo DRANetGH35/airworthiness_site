@@ -31,6 +31,10 @@ class User(UserMixin, db.Model):
         return cls.query.filter_by(name=username).first() is not None
 
     @classmethod
+    def exists_by_email(cls, email: str) -> bool:
+        return cls.query.filter_by(email=email).first() is not None
+
+    @classmethod
     def get_by_username(cls, username: str):
         return cls.query.filter_by(name=username).first()
 

@@ -40,8 +40,10 @@ def register():
         email = str(request.form.get('email'))
         password = str(request.form.get('password'))
         verification_code = f"{random.randint(0, 99999):05}"
+        if User.exists_by_email:
+            return render_template('account/register.html', error="Account already exists with that email")
         if User.exists(username):
-            return render_template('account/register.html', error="Username already exists")
+            return render_template('account/register.html', error="Username taken")
         new_user = User(name=username,
                         email=email,
                         password=generate_password_hash(password, method='pbkdf2:sha256', salt_length=8),

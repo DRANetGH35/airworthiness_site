@@ -1,7 +1,7 @@
-from flask import render_template, redirect, url_for, jsonify, session
+from flask import render_template, redirect, url_for, jsonify, session, flash
 from flask import request
 from flask_login import login_user, current_user, logout_user, login_required
-from extensions import db, send_verification_email
+from extensions import db, send_verification_email, send_reset_link
 from models import User, Plane, TimeEntry, MaintenanceEntry, Engine, Overhaul
 from app import create_app
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -9,6 +9,7 @@ import random
 from sqlalchemy import select, delete
 import datetime
 from decorators import admin_required
+from tokens import generate_reset_token, verify_reset_token
 
 app = create_app()
 
@@ -75,20 +76,30 @@ def login():
 
 @app.route('/forgot_password', methods=["GET", "POST"])
 def forgot_password():
-    if request.method == "GET":
-        if current_user.is_authenticated:
-            return redirect(url_for('index'))
-        return render_template('account/forgot_password.html')
-    email = request.form.get('email')
-    return redirect(url_for('reset_password'))
+    if request.method == "POST":
+        email = request.form.get('email')
+        user = User.get_by_email(email)
+        if user:
+            token = generate_reset_token(email)
+            reset_url = url_for('reset_password', token=token, _external=True)
+            send_reset_link(reset_url, email)
+        flash('If that account exists, instructions will be sent to your email')
+    return render_template('account/forgot_password.html')
 
-@app.route('/reset_password', methods=['GET', 'POST'])
-def reset_password():
-    if request.method == "GET":
-        return render_template('account/reset_password.html')
-    else:
-        return render_template(url_for('index'))
-
+@app.route('/reset_password/<token>', methods=['GET', 'POST'])
+def reset_password(token):
+    email = verify_reset_token(token)
+    if not email:
+        flash("The link is invalid or expired", "danger")
+        return redirect(url_for('forgot_password'))
+    if request.method == "POST":
+        new_password = request.form.get('password')
+        user = User.get_by_email(email)
+        
+        user.password = generate_password_hash(new_password, method='pbkdf2:sha256', salt_length=8)
+        db.session.commit()
+        return redirect(url_for('index'))
+    return render_template('account/reset_password.html', token=token)
 @app.route('/logout')
 def logout():
     logout_user()

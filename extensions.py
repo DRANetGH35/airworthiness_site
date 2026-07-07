@@ -35,5 +35,16 @@ def send_verification_email(code, address):
         connection.login(user=my_email, password=password)
         connection.sendmail(from_addr=my_email, to_addrs=address, msg=f"Subject:{subject}\n\n{message}")
 
+def send_reset_link(link, address):
+    my_email = "dradigitalmessenger@gmail.com"
+    password = os.environ.get("EMAIL_PASSWORD")
+    subject = "Reset your password"
+
+    message = f"To reset you password, visit the following link \n {link} \n\n If you did not request a password reset, please ignore this email"
+
+    with smtplib.SMTP("smtp.gmail.com", port=587) as connection:
+        connection.starttls()
+        connection.login(user=my_email, password=password)
+        connection.sendmail(from_addr=my_email, to_addrs=address, msg=f"Subject:{subject}\n\n{message}")
 month = datetime.datetime.now().month
 day = datetime.datetime.now().day

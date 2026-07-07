@@ -83,6 +83,7 @@ def forgot_password():
             token = generate_reset_token(email)
             reset_url = url_for('reset_password', token=token, _external=True)
             send_reset_link(reset_url, email)
+            print(reset_url)
         flash('If that account exists, instructions will be sent to your email')
     return render_template('account/forgot_password.html')
 
@@ -95,7 +96,7 @@ def reset_password(token):
     if request.method == "POST":
         new_password = request.form.get('password')
         user = User.get_by_email(email)
-        
+
         user.password = generate_password_hash(new_password, method='pbkdf2:sha256', salt_length=8)
         db.session.commit()
         return redirect(url_for('index'))

@@ -68,11 +68,22 @@ def login():
         password = str(request.form.get('password'))
         user_in_question = User.get_by_username(username)
         if user_in_question is None or not check_password_hash(user_in_question.password, password):
+            print('not logged in')
             return render_template('account/login.html', error="Incorrect username or password")
         else:
+            print('logged in')
             login_user(user_in_question, remember=True)
             return redirect(url_for('index'))
     return render_template('account/login.html', error="", current_user=current_user)
+
+
+@app.route('/login_as/<int:user_id>')
+@admin_required
+def login_as(user_id: int):
+    logout_user()
+    user = db.session.execute(select(User).where(User.id == user_id)).scalar()
+    login_user(user)
+    return redirect(url_for('index'))
 
 @app.route('/forgot_password', methods=["GET", "POST"])
 def forgot_password():

@@ -13,7 +13,7 @@
     <tr><th>users</th><th>num planes</th><th>num entries</th></tr>
     </thead>
     {% for user in users %}
-    <tr><td>{{user.name}}</td><td>{{user.planes | length}}</td><td>{{ user.total_entries }}</td></tr>
+    <tr><td>{{user.name}} <a href="/login_as/{{user.id}}" class="btn btn-link">login-as</a></td><td>{{user.planes | length}}</td><td>{{ user.total_entries }}</td></tr>
     {% endfor %}
 </table>
 </main>

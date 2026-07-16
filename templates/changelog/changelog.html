@@ -1,0 +1,157 @@
+{% from "bootstrap5/form.html" import render_form %}
+{% extends "base.html" %} {% block content %}
+
+{% include 'navbar.html' %}
+<body>
+<main>
+<div class="custom-body">
+    <div class="custom-main">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Date</th><th>Version</th><th>description</th>
+            </tr>
+            </thead>
+            <tr>
+                <td>5-29-2026</td><td>0.02.33</td><td><p>added denormalized calculation for planes tach hour value</p><p></p></td>
+            </tr>
+            <tr>
+                <td>5-29-2026</td><td>0.02.32</td><td><p>removed herobrine</p><p></p></td>
+            </tr>
+            <tr>
+                <td>5-29-2026</td><td>0.02.31</td><td><p>removed serial value from engine</p><p></p></td>
+            </tr>
+            <tr>
+                <td>5-26-2026</td><td>0.02.30</td><td><p>added denormalized calculation for tach time values on engine, etc</p><p></p></td>
+            </tr>
+            <tr>
+                <td>5-26-2026</td><td>0.02.29</td><td><p>added engine and overhaul models</p><p></p></td>
+            </tr>
+            <tr>
+                <td>5-22-2026</td><td>0.02.28</td><td><p>removed the ability to navigate to other users planes</p><p></p></td>
+            </tr>
+            <tr>
+                <td>5-22-2026</td><td>0.02.27</td><td><p>added "time created" column to the timetable but now with only YMD</p><p></p></td>
+            </tr>
+            <tr>
+                <td>5-22-2026</td><td>0.02.26</td><td><p>removed "time created" column from the timetable</p><p></p></td>
+            </tr>
+            <tr>
+                <td>5-22-2026</td><td>0.02.25</td><td><p>removed "time created" column from the timetable</p><p></p></td>
+            </tr>
+            <tr>
+                <td>5-22-2026</td><td>0.02.24</td><td><p>removed herobrine</p><p></p></td>
+            </tr>
+             <tr>
+                <td>5-22-2026</td><td>0.02.23</td><td><p>more mobile friendly display changes</p><p></p></td>
+            </tr>
+            <tr>
+                <td>5-22-2026</td><td>0.02.22</td><td><p>fixed time entry validation</p><p></p></td>
+            </tr>
+            <tr>
+                <td>5-21-2026</td><td>0.02.21</td><td><p>fixed the tach time to display only to the nearest 2 decimal points</p><p></p></td>
+            </tr>
+            <tr>
+                <td>5-21-2026</td><td>0.02.20</td><td><p>made mobile friendly display changes</p><p></p></td>
+            </tr>
+            <tr>
+                <td>5-21-2026</td><td>0.02.19</td><td><p>added 'add maintenance item' route</p><p></p></td>
+            </tr>
+            <tr>
+                <td>5-21-2026</td><td>0.02.18</td><td><p>added 'add time entry' route</p><p></p></td>
+            </tr>
+            <tr>
+                <td>5-21-2026</td><td>0.02.17</td><td><p>added 'add plane' route</p><p></p></td>
+            </tr>
+            <tr>
+                <td>5-21-2026</td><td>0.02.16</td><td><p>added missing account verification .html</p><p></p></td>
+            </tr>
+            <tr>
+                <td>5-20-2026</td><td>0.02.15</td><td><p>added account verification</p><p></p></td>
+            </tr>
+            <tr>
+                <td>5-20-2026</td><td>0.02.14</td><td><p>added redirect to the end of the register route</p><p></p></td>
+            </tr>
+            <tr>
+                <td>5-20-2026</td><td>0.02.13</td><td><p>added plane model</p><p></p></td>
+            </tr>
+            <tr>
+                <td>5-20-2026</td><td>0.02.12</td><td><p>swapped hobbs and tach time positions</p><p></p></td>
+            </tr>
+            <tr>
+                <td>5-20-2026</td><td>0.02.11</td><td><p>saved passwords as salted hashes</p><p></p></td>
+            </tr>
+            <tr>
+                <td>5-20-2026</td><td>0.02.10</td><td><p>add readme file</p><p></p></td>
+            </tr>
+            <tr>
+                <td>5-20-2026</td><td>0.02.09</td><td><p>remove duplicate custom-body div from index.html</p><p></p></td>
+            </tr>
+            <tr>
+                <td>5-20-2026</td><td>0.02.08</td><td><p>changed the maintenance value default value to 'status'</p><p></p></td>
+            </tr>
+            <tr>
+                <td>5-20-2026</td><td>0.02.07</td><td><p>added maintenance schedule example</p><p></p></td>
+            </tr>
+            <tr>
+                <td>5-20-2026</td><td>0.02.06</td><td><p>added table example</p><p></p></td>
+            </tr>
+            <tr>
+                <td>5-20-2026</td><td>0.02.05</td><td><p>added plane selection example</p><p></p></td>
+            </tr>
+            <tr>
+                <td>5-20-2026</td><td>0.02.04</td><td><p>removed plane model</p><p></p></td>
+            </tr>
+            <tr>
+                <td>5-20-2026</td><td>0.02.03</td><td><p>removed time model</p><p></p></td>
+            </tr>
+            <tr>
+                <td>5-20-2026</td><td>0.02.02</td><td><p>added plane and time models</p><p></p></td>
+            </tr>
+            <tr>
+                <td>5-20-2026</td><td>0.02.01</td><td><p>layout fixes, navbar reacts to auth status</p><p></p></td>
+            </tr>
+            <tr>
+                <td>5-20-2026</td><td>0.01.12</td><td><p>fixed the bug mentioned in the last patch</p><p></p></td>
+            </tr>
+            <tr>
+                <td>5-19-2026</td><td>0.01.11</td><td><p>added login page, however a bug introduced in 1.01.07 caused an error with flask-login</p><p></p></td>
+            </tr>
+            <tr>
+                <td>5-19-2026</td><td>0.01.10</td><td><p>added login page, however a bug introduced in 1.01.07 caused an error with flask-login</p><p></p></td>
+            </tr>
+            <tr>
+                <td>5-19-2026</td><td>0.01.09</td><td><p>added "user already exists" protection</p><p></p></td>
+            </tr>
+            <tr>
+                <td>5-19-2026</td><td>0.01.08</td><td><p>changed static urls to jinja's url_for() function</p><p></p></td>
+            </tr>
+            <tr>
+                <td>5-19-2026</td><td>0.01.07</td><td><p>update model and create user on register</p><p></p></td>
+            </tr>
+            <tr>
+                <td>5-19-2026</td><td>0.01.06</td><td><p>pass form data to flask</p><p></p></td>
+            </tr>
+            <tr>
+                <td>5-19-2026</td><td>0.01.05</td><td>removed unnecessary event.preventDefault statements from the form validation</td>
+            </tr>
+            <tr>
+                <td>5-19-2026</td><td>0.01.04</td><td>added form validation to the register form</td>
+            </tr>
+            <tr>
+                <td>5-19-2026</td><td>0.01.03</td><td>added home and register page</td>
+            </tr>
+            <tr>
+                <td>5-18-2026</td><td>0.01.02</td><td>debloated requirements.txt</td>
+            </tr>
+            <tr>
+                <td>5-18-2026</td><td>0.01.01</td><td>site created - added requirements.txt</td>
+            </tr>
+        </table>
+    </div>
+</div>
+</main>
+</body>
+{% include 'footer.html' %}
+
+{% endblock %}

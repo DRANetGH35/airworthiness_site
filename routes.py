@@ -353,6 +353,10 @@ def changeMaintenanceStatus():
         db.session.commit()
     return redirect(request.referrer)
 
+@app.route('/changelog')
+def changelog():
+    return render_template('changelog/changelog.html')
+
 @app.errorhandler(403)
 def forbidden(e):
     return render_template('errors/403.html')

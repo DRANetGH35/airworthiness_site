@@ -56,7 +56,7 @@ def register():
         db.session.add(new_user)
         db.session.commit()
         send_verification_email(verification_code, email)
-        login_user(new_user)
+        login_user(new_user, remember=True)
         return redirect(url_for('index'))
     return render_template('account/register.html', error="", current_user=current_user)
 
@@ -82,7 +82,7 @@ def login():
 def login_as(user_id: int):
     logout_user()
     user = db.session.execute(select(User).where(User.id == user_id)).scalar()
-    login_user(user)
+    login_user(user, remember=True)
     return redirect(url_for('index'))
 
 @app.route('/forgot_password', methods=["GET", "POST"])
